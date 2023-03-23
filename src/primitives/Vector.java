@@ -87,15 +87,15 @@ public class Vector extends Point {
         double x = xyz.d2 * u.xyz.d3 - xyz.d3 * u.xyz.d2;
         double y = xyz.d3 * u.xyz.d1 - xyz.d1 * u.xyz.d3;
         double z = xyz.d1 * u.xyz.d2 - xyz.d2 * u.xyz.d1;
+
         return new Vector(x, y, z);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj instanceof Vector other)
-            return this.xyz.equals(other.xyz);
-        return false;
+        if (!(obj instanceof Vector other)) return false;
+        return this.xyz.equals(other.xyz);
     }
 
     @Override
@@ -103,13 +103,16 @@ public class Vector extends Point {
         return super.toString();
     }
 
-
+    /**
+     * Adding a vector to this vector.
+     *
+     * @param vector the vector that added.
+     * @return the result (a new vector) of the adding.
+     */
     public Vector add(Vector vector) {
-        double x = vector.xyz.d1 + xyz.d1;
-        double y = vector.xyz.d2 + xyz.d2;
-        double z = vector.xyz.d3 + xyz.d3;
-        return new Vector(x, y, z);
+        return new Vector(xyz.add(vector.xyz));
     }
+
     /**
      * Calculates the product of this vector with some number.
      *
