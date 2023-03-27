@@ -13,22 +13,16 @@ public class Sphere extends RadialGeometry{
      * The center point of sphere.
      */
     final Point center;
-    /**
-     * The radius of the sphere.
-     */
-    final Double radios;
 
     /**
      * Constructs a new Sphere object with the specified radius, center point, and radius length.
      *
      * @param radius the radius of the sphere.
      * @param center the center point of the sphere.
-     * @param radios the radius length of the sphere.
      */
-    public Sphere(double radius, Point center, Double radios) {
+    public Sphere(double radius, Point center) {
         super(radius);
         this.center = center;
-        this.radios = radios;
     }
 
     /**
@@ -46,7 +40,7 @@ public class Sphere extends RadialGeometry{
      * @return the radius length of the sphere.
      */
     public Double getRadios() {
-        return radios;
+        return radius;
     }
 
     @Override
