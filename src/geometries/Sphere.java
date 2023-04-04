@@ -8,7 +8,7 @@ import primitives.Vector;
 
 import java.awt.*;
 
-public class Sphere extends RadialGeometry{
+public class Sphere extends RadialGeometry {
     /**
      * The center point of sphere.
      */

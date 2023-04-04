@@ -7,6 +7,8 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
+import static primitives.Util.isZero;
+
 public class Plane implements Geometry {
     Point p0;
     Vector normal;
@@ -37,7 +39,12 @@ public class Plane implements Geometry {
      */
     public Plane(Point p0,Point p1,Point p2) {
         this.p0 = p0;
-        this.normal = null;
+        Vector v1 = p1.subtract(p0);
+        Vector v2 = p2.subtract(p1);
+        Vector N = v1.crossProduct(v2);
+        if(isZero(v1.dotProduct(v2)))//todo: check if the vectors are on the same line
+            throw new IllegalArgumentException("The points are on the same line");
+        this.normal = N.normalize();
     }
 
     /**
@@ -60,7 +67,7 @@ public class Plane implements Geometry {
 
     public Vector getNormal(Point point)
     {
-        return null;
+        return normal;
     }
 
 }
