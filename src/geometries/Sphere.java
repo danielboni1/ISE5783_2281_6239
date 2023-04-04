@@ -4,8 +4,8 @@
  */
 package geometries;
 
+import primitives.Point;
 import primitives.Vector;
-
 import java.awt.*;
 
 public class Sphere extends RadialGeometry {
@@ -45,7 +45,7 @@ public class Sphere extends RadialGeometry {
 
     @Override
     public Vector getNormal(primitives.Point point) {
-        return null;
+        return point.subtract(center).normalize();
     }
 
 }
