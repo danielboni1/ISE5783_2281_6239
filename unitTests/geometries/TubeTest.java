@@ -15,7 +15,11 @@ class TubeTest {
     void getNormal() {
         Ray ray = new Ray(new Point(0,0,0),new Vector(0,0,1));
         Tube tube = new Tube(1,ray);
+        //EP normal
         Vector normal = tube.getNormal(new Point(0,1,1));
         assertEquals(new Vector(0,1,0),normal,"normal is wrong");
+        //BVA normal
+        Vector bnormal = tube.getNormal(new Point(0,1,0));
+        assertEquals(new Vector(0,1,0),bnormal,"normal is wrong");
     }
 }
