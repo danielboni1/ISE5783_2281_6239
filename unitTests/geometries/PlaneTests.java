@@ -50,9 +50,10 @@ class PlaneTests {
         Plane plane1 = new Plane(p1,p2,p3);
         Vector result = plane1.getNormal(p3);
 
-        // ensure |result| = 1
+        //TC01: ensure |result| = 1
         assertEquals(1, result.length(), 0.00000001, "Plane's normal is not a unit vector");
 
+        //TC02: ensure that the vector is correct
         assertEquals(new Vector(-28,2,9).normalize(), result,"Plane's normal is wrong");
     }
 

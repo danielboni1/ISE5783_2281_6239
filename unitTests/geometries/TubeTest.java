@@ -8,18 +8,25 @@ import primitives.Ray;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static primitives.Util.isZero;
-
+/**
+ * Testing Tube
+ *
+ */
 class TubeTest {
-
+    /**
+     * Test method for {@link geometries.Tube#getNormal(primitives.Point)}
+     */
     @Test
     void getNormal() {
         Ray ray = new Ray(new Point(0,0,0),new Vector(0,0,1));
         Tube tube = new Tube(1,ray);
-        //EP normal
+        // ============ Equivalence Partitions Tests ==============
         Vector normal = tube.getNormal(new Point(0,1,1));
+        // TC01: from the side
         assertEquals(new Vector(0,1,0),normal,"normal is wrong");
-        //BVA normal
+        // =============== Boundary Values Tests ==================
         Vector bnormal = tube.getNormal(new Point(0,1,0));
+        // TC10: on the base
         assertEquals(new Vector(0,1,0),bnormal,"normal is wrong");
     }
 }

@@ -22,7 +22,7 @@ public class Plane implements Geometry {
      * @param normal the normal vector of the plane.
      */
     public Plane(Point p0, Vector normal) {
-        if (normal.length()==1)
+        if (normal.length()!=1)
         {
             normal = normal.normalize();
         }
