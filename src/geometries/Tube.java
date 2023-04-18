@@ -1,13 +1,17 @@
-/**
- * The Tube class represents a tube shape in a three-dimensional space.
- * It extends the RadialGeometry class and adds an axis ray attribute to define the direction of the tube.
- */
 package geometries;
 
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
+import static primitives.Util.*;
+
+/**
+ * The Tube class represents a tube shape in a three-dimensional space.
+ * It extends the RadialGeometry class and adds an axis ray attribute to define the direction of the tube.
+ */
 public class Tube extends RadialGeometry {
     /**
      * The axis ray of the tube.
@@ -36,18 +40,31 @@ public class Tube extends RadialGeometry {
 
     @Override
     public Vector getNormal(Point point) {
-        Vector v = point.subtract(axisRay.getP0());
-        double t = axisRay.getDir().dotProduct(v);
-        if(t>0)//ep - not in the same line
-        {
-            Vector vt = axisRay.getDir().scale(t);
-            Point o = axisRay.getP0().add(vt);
-            return point.subtract(o).normalize();
-        }
-       else
-        {
-            return point.subtract(axisRay.getP0()).normalize();
-        }
-    }
+        //TODO
+        Point P0 = axisRay.getP0();
+        Vector v = axisRay.getDir();
 
+        Vector P0_P = point.subtract(P0);
+
+        double t = alignZero(v.dotProduct(P0_P));
+
+        if (t == 0d) {
+            return P0_P.normalize();
+        }
+
+        Point o = P0.add(v.scale(t));
+
+        if (point.equals(o)) {
+            throw new IllegalArgumentException("point cannot be on the tube axis");
+        }
+
+        Vector n = point.subtract(o).normalize();
+
+        return n;
+    }
+    @Override
+    public List<Point> findIntsersections(Ray ray)
+    {
+        return null;
+    }
 }

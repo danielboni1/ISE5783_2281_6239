@@ -5,6 +5,9 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
+
+import java.util.List;
 
 public class Triangle extends Polygon{
     /**
@@ -14,5 +17,10 @@ public class Triangle extends Polygon{
      */
     public Triangle(Point... vertices) {
         super(vertices);
+    }
+    @Override
+    public List<Point> findIntsersections(Ray ray)
+    {
+        return null;
     }
 }

@@ -1,25 +1,29 @@
-/**
- * The Cylinder class represents a cylinder shape in a three-dimensional space.
- * It extends the Tube class and adds a height attribute to define the length of the cylinder.
- * */
 package geometries;
 
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-public class Cylinder extends Tube{
+import java.util.List;
+
+/**
+ *  Represents a Cylinder in 3D Cartesian coordinate system, which is a tube with a height.
+ *  The tube is defined by its radius, its axis ray and its height.
+ *  The tube is bounded by two disks perpendicular to the axis ray, at the top and bottom of the tube.
+ *  This class extends Tube.
+ */
+
+public class Cylinder extends Tube {
     /**
-     * The height of the Cylinder.
+     * The height of the tube.
      */
     double height;
 
     /**
-     * Constructs a new Cylinder object with the specified radius, axis ray, and height.
-     *
-     * @param radius the radius of the cylinder.
-     * @param axisRay the axis ray of the cylinder.
-     * @param height the height of the cylinder.
+     * Constructs a Cylinder object with the specified radius, axis ray and height.
+     * @param radius the radius of the Cylinder.
+     * @param axisRay the axis ray of the Cylinder.
+     * @param height the height of the Cylinder.
      */
     public Cylinder(double radius, Ray axisRay, double height) {
         super(radius, axisRay);
@@ -27,9 +31,8 @@ public class Cylinder extends Tube{
     }
 
     /**
-     * Returns the height of the cylinder.
-     *
-     * @return the height of the cylinder.
+     * Returns the height of the tube.
+     * @return the height of the tube.
      */
     public double getHeight() {
         return height;
@@ -37,7 +40,33 @@ public class Cylinder extends Tube{
 
     @Override
     public Vector getNormal(Point point) {
-        return super.getNormal(point);
+        Point downCenter = this.getAxisRay().getP0();
+        Point upCenter = downCenter.add(this.getAxisRay().getDir().scale(getHeight()));
+        Vector upVector = upCenter.subtract(downCenter).normalize();
+        Vector downVector = downCenter.subtract(upCenter).normalize();
+        if (point.equals(downCenter)) {
+            return downVector;
+        }
+        if (point == upCenter) {
+            return upVector;
+        }
+        Vector v = point.subtract(axisRay.getP0());
+        double t = axisRay.getDir().dotProduct(v);
+        if (t == 0) {
+            return downVector;
+        }
+        if (t == height) {
+            return upVector;
+        }
+        Vector vt = axisRay.getDir().scale(t);
+        Point o = axisRay.getP0().add(vt);
+        return point.subtract(o).normalize();
+    }
+
+    @Override
+    public List<Point> findIntsersections(Ray ray)
+    {
+        return null;
     }
 
 }

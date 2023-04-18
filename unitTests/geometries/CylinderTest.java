@@ -7,34 +7,34 @@ import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 /**
- * Testing FinitTube
+ * Testing Cylinder
  *
  */
-class FinitTubeTest {
+class CylinderTest {
     /**
-     * Test method for {@link geometries.FinitTube#getNormal(primitives.Point)}
+     * Test method for {@link geometries.Cylinder#getNormal(primitives.Point)}
      */
 
     @Test
     void getNormal() {
         // ============ Equivalence Partitions Tests ==============
         Ray ray = new Ray(new Point(0,0,0),new Vector(0,0,1));
-        FinitTube tube = new FinitTube(1,ray,3);
+        Cylinder cylinder = new Cylinder(1,ray,3);
         // TC01: from the side
-        Vector normal = tube.getNormal(new Point(0,1,1));
+        Vector normal = cylinder.getNormal(new Point(0,1,1));
         assertEquals(new Vector(0,1,0),normal,"normal is wrong");
         // TC02: on the upper base
-        normal = tube.getNormal(new Point(0,0.5,3));
+        normal = cylinder.getNormal(new Point(0,0.5,3));
         assertEquals(new Vector(0,0,1), normal, "normal is wrong");
         // TC03: on the lower base
-        normal = tube.getNormal(new Point(0,0.5,0));
+        normal = cylinder.getNormal(new Point(0,0.5,0));
         assertEquals(new Vector(0,0,-1), normal, "normal is wrong");
         // =============== Boundary Values Tests ==================
         // TC10: on the center point of the upper base
-        normal = tube.getNormal(new Point(0,0,3));
+        normal = cylinder.getNormal(new Point(0,0,3));
         assertEquals(new Vector(0,0,1), normal, "normal is wrong");
         // TC11: on the center point of the lower base
-        normal = tube.getNormal(new Point(0,0,0));
+        normal = cylinder.getNormal(new Point(0,0,0));
         assertEquals(new Vector(0,0,-1), normal, "normal is wrong");
     }
 }

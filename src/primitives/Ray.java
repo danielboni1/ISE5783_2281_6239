@@ -5,29 +5,29 @@ package primitives;
 
 import java.util.Objects;
 
+/**
+ * The Ray class represents a ray in 3D space.
+ */
 public class Ray {
     /**
      * The starting point of the ray.
      */
     final Point p0;
+
     /**
-     * The direction of the ray.
+     * The normalized direction of the ray.
      */
     final Vector dir;
 
     /**
      * Constructs a Ray object with a starting point and a direction vector.
      *
-     * @param p0 The starting point of the ray.
+     * @param p0  The starting point of the ray.
      * @param dir The direction of the ray.
      */
     public Ray(Point p0, Vector dir) {
-        if (dir.length()!=1)
-        {
-            dir = dir.normalize();
-        }
         this.p0 = p0;
-        this.dir = dir;
+        this.dir = dir.normalize();
     }
 
     /**
