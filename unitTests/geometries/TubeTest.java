@@ -5,6 +5,8 @@ import primitives.Point;
 import primitives.Vector;
 import primitives.Ray;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static primitives.Util.isZero;
@@ -28,5 +30,10 @@ class TubeTest {
         Vector bnormal = tube.getNormal(new Point(0,1,0));
         // TC10: on the base
         assertEquals(new Vector(0,1,0),bnormal,"normal is wrong");
+    }
+    @Test
+    List<Point> testfindIntsersections()
+    {
+        return null;
     }
 }

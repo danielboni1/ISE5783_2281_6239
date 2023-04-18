@@ -2,7 +2,10 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
@@ -24,5 +27,9 @@ class TriangleTest {
         for (int i = 0; i < 2; ++i)
             assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 2 : i - 1]))),
                     "Polygon's normal is not orthogonal to one of the edges");
+    }
+    @Test
+    public List<Point> testfindIntsersections() {
+        return null;
     }
 }

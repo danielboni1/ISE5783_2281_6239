@@ -5,6 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 /**
  * Testing Cylinder
@@ -37,4 +39,9 @@ class CylinderTest {
         normal = cylinder.getNormal(new Point(0,0,0));
         assertEquals(new Vector(0,0,-1), normal, "normal is wrong");
     }
+    @Test
+    List<Point> testfindIntsersections() {
+        return null;
+    }
+
 }
