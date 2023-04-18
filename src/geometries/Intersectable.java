@@ -7,7 +7,7 @@ import primitives.Vector;
 import java.util.List;
 
 /**
- * This interface
+ * This interface to
  */
 public interface Intersectable {
     List<Point> findIntsersections(Ray ray);
