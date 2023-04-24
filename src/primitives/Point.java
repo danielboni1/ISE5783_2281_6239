@@ -31,6 +31,21 @@ public class Point {
         this(double3.d1, double3.d2, double3.d3);
     }
 
+    /**
+     * Getter
+     * @return the first coordinate of the point
+     */
+    public double getX(){return xyz.d1;}
+    /**
+     * Getter
+     * @return the second coordinate of the point
+     */
+    public double getY(){return xyz.d2;}
+    /**
+     * Getter
+     * @return the third coordinate of the point
+     */
+    public double getZ(){return xyz.d3;}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

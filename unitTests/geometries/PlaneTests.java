@@ -62,22 +62,79 @@ class PlaneTests {
     @Test
     void testfindIntsersections()
     {
-        Point p1 = new Point(0,0,0);
+        Point p1 = new Point(0,1,0);
         Point p2 = new Point(1,0,0);
-        Point p3 = new Point(0,1,0);
+        Point p3 = new Point(0,0,0);
         Plane plane = new Plane(p1,p2,p3);
 
         // ============ Equivalence Partitions Tests ==============
-        //TC01
+        //TC01: A ray that starts outside the plane, is not parallel to the plane,
+        // makes a non-right angle with the plane, and cuts the plane(1 point)
         Point p0 = new Point(0,0,-1);
         Vector dir = new Vector(0,1,1);
         Ray ray = new Ray(p0,dir);
         List<Point> result = plane.findIntsersections(ray);
         int len = result.size();
         assertEquals(1,len,"number of elements is not equal");
-
         assertEquals(result.get(0),new Point(0,1,0), "The point is wrong");
 
+        //TC02: A ray that starts outside the plane, is not parallel to the plane,
+        // makes a non-right angle with the plane, and does not intersect the plane (0 point)
+        dir = new Vector(0,-1,-1);
+        ray = new Ray(p0,dir);
+        result = plane.findIntsersections(ray);
+        assertNull(result,"There is a point that not suppose to be");
+
+
+        // =============== Boundary Values Tests ==================
+        //TC10: A ray that is parallel to a plane outside it (0 point)
+        dir = new Vector(0,1,0);
+        ray = new Ray(p0,dir);
+        result = plane.findIntsersections(ray);
+        assertNull(result,"There is a point that not suppose to be");
+
+        //TC11: A ray that is parallel to the plane and within it (0 point)
+        p0 = new Point(1,0,0);
+        ray = new Ray(p0,dir);
+        result = plane.findIntsersections(ray);
+        assertNull(result,"There is a point that not suppose to be");
+
+        //TC12: A ray perpendicular to the plane and starting behind it
+        p0 = new Point(1,0,-1);
+        dir = new Vector(0,0,1);
+        ray = new Ray(p0,dir);
+        result = plane.findIntsersections(ray);
+        len = result.size();
+        assertEquals(1,len,"number of elements is not equal");
+        assertEquals(result.get(0),new Point(1,0,0), "The point is wrong");
+
+        //TC13: A ray perpendicular to the plane and starting on it
+        p0 = new Point(1,0,0);
+        ray = new Ray(p0,dir);
+        result = plane.findIntsersections(ray);
+        assertNull(result,"There is a point that not suppose to be");
+
+        //TC14: A ray perpendicular to the plane and starting in front of it
+        p0 = new Point(0,0,1);
+        ray = new Ray(p0,dir);
+        result = plane.findIntsersections(ray);
+        assertNull(result,"There is a point that not suppose to be");
+
+
+        //TC15: A ray that is neither parallel nor perpendicular
+        // to the plane but starts inside the plane
+        p0 = new Point(1,0,0);
+        dir = new Vector(0,1,1);
+        ray = new Ray(p0,dir);
+        result = plane.findIntsersections(ray);
+        assertNull(result,"There is a point that not suppose to be");
+
+        //TC16: Ray is neither orthogonal nor parallel to the plane and begins in
+        //the same point which appears as reference point in the plane
+        p0 = new Point(0,1,0);
+        ray = new Ray(p0,dir);
+        result = plane.findIntsersections(ray);
+        assertNull(result,"There is a point that not suppose to be");
     }
 
 }
