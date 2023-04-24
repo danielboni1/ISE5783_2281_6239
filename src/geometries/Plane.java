@@ -77,12 +77,7 @@ public class Plane implements Geometry {
     }
 
 
-    /**
-     * Computes intersections between the plane and a given ray.
-     *
-     * @param ray the ray to intersect with the plane.
-     * @return a list of intersection points, or null if there are no intersections.
-     */
+
     @Override
     public List<Point> findIntsersections(Ray ray)
     {

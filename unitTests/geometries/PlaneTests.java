@@ -60,7 +60,7 @@ class PlaneTests {
         assertEquals(new Vector(-28,2,9).normalize(), result,"Plane's normal is wrong");
     }
     @Test
-    List<Point> testfindIntsersections()
+    void testfindIntsersections()
     {
         Point p1 = new Point(0,0,0);
         Point p2 = new Point(1,0,0);
@@ -76,7 +76,7 @@ class PlaneTests {
         int len = result.size();
         assertEquals(1,len,"number of elements is not equal");
 
-        assertEquals(result.get(0),new Point(0,))
+        assertEquals(result.get(0),new Point(0,1,0), "The point is wrong");
 
     }
 
