@@ -29,7 +29,37 @@ class TriangleTest {
                     "Polygon's normal is not orthogonal to one of the edges");
     }
     @Test
-    public List<Point> testfindIntsersections() {
-        return null;
+    void testfindIntsersections()
+    {
+        // ============ Equivalence Partitions Tests ==============
+        //TC01 החיתוך בתוך המשולש
+        Triangle triangle = new Triangle(new Point(1,0,0),new Point(0,-1,0),new Point(0,1,0));
+        Ray ray = new Ray(new Point(0,0,-1),new Vector(1,0,2));
+        Point P1 = new Point(0.5,0,0);
+        List<Point> result= triangle.findIntsersections(ray);
+        assertEquals(1,result.size(),"number of elements is not equal");
+        assertEquals(P1,result.get(0),"the point is wrong");
+        //TC02 החיתוך מחוץ למשולש מול הצלעות
+        ray = new Ray(new Point(0,0,-1),new Vector(0.5,-5,1));
+        result= triangle.findIntsersections(ray);
+        assertNull(result,"not suppose to be intsersection point");
+        //TC03 החיתוך מחוץ למשולש מול הקודקודים
+        ray = new Ray(new Point(0,0,-1),new Vector(2,0,1));
+        result= triangle.findIntsersections(ray);
+        assertNull(result,"not suppose to be intsersection point");
+
+        // =============== Boundary Values Tests ==================
+        //TC10 חיתוך על צלע
+        ray = new Ray(new Point(0,0,-1),new Vector(0,1,2));
+        result= triangle.findIntsersections(ray);
+        assertNull(result,"not suppose to be intsersection point");
+        //TC11 חיתוך על קודקוד
+        ray = new Ray(new Point(0,0,-1),new Vector(1,0,1));
+        result= triangle.findIntsersections(ray);
+        assertNull(result,"not suppose to be intsersection point");
+        //TC12 חיתוך על המשך צלע
+        ray = new Ray(new Point(0,0,-1),new Vector(0,2,1));
+        result= triangle.findIntsersections(ray);
+        assertNull(result,"not suppose to be intsersection point");
     }
 }

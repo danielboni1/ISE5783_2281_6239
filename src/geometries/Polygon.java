@@ -2,6 +2,7 @@ package geometries;
 
 import static primitives.Util.isZero;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import primitives.Point;
@@ -84,6 +85,39 @@ public class Polygon implements Geometry {
    @Override
    public List<Point> findIntsersections(Ray ray)
    {
-      return null;
+      List<Point> result = plane.findIntsersections(ray);
+      if(result == null){
+         return null;
+      }
+      Point p0 = ray.getP0();
+      Vector v=ray.getDir();
+      int size = vertices.size();
+      List<Vector> allV = new ArrayList<>();
+      for (int i =0; i< size;i++)
+      {
+         allV.add(vertices.get(i).subtract(p0));
+      }
+      List<Vector> allN = new ArrayList<>();
+      for (int i=0;i<size-1 ;i++)
+      {
+         allN.add(allV.get(i).crossProduct(allV.get(i+1)));
+      }
+      allN.add(allV.get(size-1).crossProduct(allV.get(0)));
+      List<Double> allS = new ArrayList<>();
+      for (int i =0 ; i<size;i++)
+      {
+         allS.add(allN.get(i).dotProduct(v));
+      }
+      double chackIfSameSign = allS.get(0);
+      for (int i =1; i<size;i++)
+      {
+         if (allS.get(i)*chackIfSameSign<=0)
+         {
+            return null;
+         }
+      }
+      return result;
+
+
    }
 }
