@@ -93,9 +93,8 @@ public class Polygon implements Geometry {
       Vector v=ray.getDir();
       int size = vertices.size();
       List<Vector> allV = new ArrayList<>();
-      for (int i =0; i< size;i++)
-      {
-         allV.add(vertices.get(i).subtract(p0));
+      for (var i : vertices) {
+         allV.add(i.subtract(p0));
       }
       List<Vector> allN = new ArrayList<>();
       for (int i=0;i<size-1 ;i++)
@@ -104,14 +103,12 @@ public class Polygon implements Geometry {
       }
       allN.add(allV.get(size-1).crossProduct(allV.get(0)));
       List<Double> allS = new ArrayList<>();
-      for (int i =0 ; i<size;i++)
-      {
-         allS.add(allN.get(i).dotProduct(v));
+      for (var i : allN) {
+         allS.add(i.dotProduct(v));
       }
       double chackIfSameSign = allS.get(0);
-      for (int i =1; i<size;i++)
-      {
-         if (allS.get(i)*chackIfSameSign<=0)
+      for (var i : allS) {
+         if (i*chackIfSameSign<=0)
          {
             return null;
          }

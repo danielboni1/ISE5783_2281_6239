@@ -69,7 +69,7 @@ public class Sphere extends RadialGeometry {
         {
             // If the Ray starts at the center of the sphere,
             // the intersection points are the endpoints of the diameter
-            Point p1= p0.add(v.scale(radius));
+            Point p1 = ray.getPoint(radius);
             return List.of(p1);
         }
 
@@ -88,19 +88,19 @@ public class Sphere extends RadialGeometry {
         if (t1>0 && t2>0)
         {
             // If the Ray intersects the sphere at two points, return both points
-            Point p1 = p0.add(v.scale(t1));
-            Point p2 = p0.add(v.scale(t2));
+            Point p1 = ray.getPoint(t1);
+            Point p2 = ray.getPoint(t2);
             return List.of(p1,p2);
         }
         if (t1>0){
             // If the Ray intersects the sphere at only p1, return that point
-            Point p1 = p0.add(v.scale(t1));
+            Point p1 = ray.getPoint(t1);
             return List.of(p1);
         }
         if (t2>0)
         {
             // If the Ray intersects the sphere at only p2, return that point
-            Point p2 = p0.add(v.scale(t2));
+            Point p2 = ray.getPoint(t2);
             return List.of(p2);
         }
         // If the Ray does not intersect the sphere, return null

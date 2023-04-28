@@ -67,5 +67,14 @@ public class Ray {
                 ", dir=" + dir +
                 '}';
     }
+    /**
+     * calculating a point on a ray
+     * @param t the length from p0
+     * @returns the point on the ray
+     */
+    public Point getPoint(double t)
+    {
+        return p0.add(dir.scale(t));
+    }
 
 }

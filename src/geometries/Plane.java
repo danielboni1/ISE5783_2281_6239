@@ -22,12 +22,11 @@ public class Plane implements Geometry {
      * Constructs a new Plane object with the specified point and normal vector.
      * If the length of the normal vector is not 1, it will be normalized.
      *
-     * @param p0 the point on the plane.
+     * @param p0     the point on the plane.
      * @param normal the normal vector of the plane.
      */
     public Plane(Point p0, Vector normal) {
-        if (normal.length()!=1)
-        {
+        if (normal.length() != 1) {
             normal = normal.normalize();
         }
         this.p0 = p0;
@@ -42,12 +41,12 @@ public class Plane implements Geometry {
      * @param p1 the second point on the plane.
      * @param p2 the third point on the plane.
      */
-    public Plane(Point p0,Point p1,Point p2) {
+    public Plane(Point p0, Point p1, Point p2) {
         this.p0 = p0;
         Vector v1 = p1.subtract(p0);
         Vector v2 = p2.subtract(p0);
         Vector N = v1.crossProduct(v2);
-        if(N.lengthSquared()==0)//todo: check if the vectors are on the same line
+        if (N.lengthSquared() == 0)//todo: check if the vectors are on the same line
             throw new IllegalArgumentException("The points are on the same line");
         this.normal = N.normalize();
     }
@@ -71,23 +70,19 @@ public class Plane implements Geometry {
     }
 
     @Override
-    public Vector getNormal(Point point)
-    {
+    public Vector getNormal(Point point) {
         return normal;
     }
 
 
-
     @Override
-    public List<Point> findIntsersections(Ray ray)
-    {
+    public List<Point> findIntsersections(Ray ray) {
         Point rayP0 = ray.getP0();
         Vector v = ray.getDir();
         Vector n = this.normal;
 
         // check if the ray starts on the plane
-        if (rayP0.equals(p0))
-        {
+        if (rayP0.equals(p0)) {
             return null;
         }
 
@@ -96,8 +91,7 @@ public class Plane implements Geometry {
         double nP0Q0 = alignZero(n.dotProduct(p0_q0));
 
         // if the ray is parallel to the plane or is on the opposite direction, there are no intersections
-        if (isZero(nP0Q0))
-        {
+        if (isZero(nP0Q0)) {
             return null;
         }
 
@@ -106,22 +100,20 @@ public class Plane implements Geometry {
 
 
         // if the ray is parallel to the plane, there are no intersections
-        if (isZero(nv))
-        {
+        if (isZero(nv)) {
             return null;
         }
 
         // calculate the distance from the ray's start point to the intersection point
-        double t = alignZero(nP0Q0/nv);
+        double t = alignZero(nP0Q0 / nv);
 
         // if the intersection point is behind the ray's start point, there are no intersections
-        if (t<=0)
-        {
+        if (t <= 0) {
             return null;
         }
 
         // calculate the intersection point
-        Point point= rayP0.add(v.scale(t));//?
+        Point point = ray.getPoint(t);
         return List.of(point);
     }
 
