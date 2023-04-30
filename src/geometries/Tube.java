@@ -40,7 +40,6 @@ public class Tube extends RadialGeometry {
 
     @Override
     public Vector getNormal(Point point) {
-        //TODO
         Point P0 = axisRay.getP0();
         Vector v = axisRay.getDir();
 

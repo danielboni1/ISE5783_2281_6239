@@ -10,8 +10,6 @@ import primitives.Vector;
 
 import java.util.List;
 
-import static primitives.Util.alignZero;
-
 public class Triangle extends Polygon {
     /**
      * Constructs a new Triangle object with the specified vertices.
@@ -23,15 +21,14 @@ public class Triangle extends Polygon {
     }
 
 
-
-   @Override
-    public List<Point> findIntsersections(Ray ray){
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
         List<Point> result = plane.findIntsersections(ray);
-        if(result == null){
+        if (result == null) {
             return null;
         }
         Point p0 = ray.getP0();
-        Vector v=ray.getDir();
+        Vector v = ray.getDir();
 
         Point p1 = vertices.get(0);
         Point p2 = vertices.get(1);
@@ -49,9 +46,9 @@ public class Triangle extends Polygon {
         double s2 = n2.dotProduct(v);
         double s3 = n3.dotProduct(v);
 
-        if(s1> 0 && s2 > 0 && s3 > 0 ||  s1 < 0 && s2< 0 && s3 < 0)
+        if (s1 > 0 && s2 > 0 && s3 > 0 || s1 < 0 && s2 < 0 && s3 < 0)
             return result;
 
-       return null;
+        return null;
     }
 }
