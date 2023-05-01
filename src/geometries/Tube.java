@@ -63,19 +63,24 @@ public class Tube extends RadialGeometry {
 
         return n;
     }
+
     @Override
-        public List<Point> findIntersections(Ray ray) {
+    public List<Point> findIntersections(Ray ray) {
         Vector dir = ray.getDir();
         Vector v = axisRay.getDir();
         double dirV = dir.dotProduct(v);
 
-        if (ray.getP0().equals(axisRay.getP0())) { // In case the ray starts on the p0.
-            if (Util.isZero(dirV))
+        // In case the ray starts on the p0 of the axis ray.
+        if (ray.getP0().equals(axisRay.getP0())) {
+            //If the ray and the axis ray are in the same direction
+            if (isZero(dirV))
+                //Return p0+radius
                 return List.of(ray.getPoint(radius));
-
+            //Opposite directions-> there are no intersection points
             if (dir.equals(v.scale(dir.dotProduct(v))))
                 return null;
 
+            //If it's not in the same direction and not in opposite directions
             return List.of(ray.getPoint(
                     Math.sqrt(radius * radius / dir.subtract(v.scale(dir.dotProduct(v)))
                             .lengthSquared())));
@@ -97,13 +102,14 @@ public class Tube extends RadialGeometry {
 
         double discriminant = alignZero(b * b - 4 * a * c);
 
-        if (discriminant < 0) // No real solutions.
+        if (discriminant < 0) // No real solutions ("MERUKAV").
             return null;
 
+        //-b+-(SHORESH(d/2a))
         double t1 = alignZero(-(b + Math.sqrt(discriminant)) / (2 * a)); // Positive solution.
         double t2 = alignZero(-(b - Math.sqrt(discriminant)) / (2 * a)); // Negative solution.
 
-        if (discriminant <= 0) // No real solutions.
+        if (discriminant <= 0) // No real solutions ("MERUKAV").
             return null;
 
         if (t1 > 0 && t2 > 0) {
@@ -115,7 +121,7 @@ public class Tube extends RadialGeometry {
         else if (t1 > 0) {
             List<Point> _points = new LinkedList<Point>();
             _points.add(ray.getPoint(t1));
-            return  _points;
+            return _points;
         }
         else if (t2 > 0) {
             List<Point> _points = new LinkedList<Point>();
@@ -124,6 +130,5 @@ public class Tube extends RadialGeometry {
         }
         return null;
     }
-
 
 }

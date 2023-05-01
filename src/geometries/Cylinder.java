@@ -66,45 +66,58 @@ public class Cylinder extends Tube {
         return point.subtract(o).normalize();
     }
 
-
-
-     //we find the projection and calcs its size and if it is like the height the point inside the cylinder (we can use dot product cause the axsis in normalized )
     @Override
     public List<Point> findIntersections(Ray ray) {
         List<Point> res = new ArrayList<>();
+
+        // Find intersections with the sides of the Cylinder
         List<Point> lst = super.findIntersections(ray);
-        if (lst != null)
+        if (lst != null) {
             for (Point point : lst) {
                 double distance = alignZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()));
-                if (distance > 0 && distance <= height)
+                if (distance > 0 && distance <= height) {
                     res.add(point);
+                }
             }
+        }
+
+        // Find intersections with the bases of the Cylinder
         Vector v = axisRay.getDir();
         Point basePoint1 = axisRay.getP0();
         Plane basePlane1 = new Plane(basePoint1, v);
         Point basePoint2;
-        if (height != 0){
+        if (height != 0) {
             basePoint2 = basePoint1.add(v.scale(height));
-        }else{
+        } else {
             basePoint2 = basePoint1;
         }
         Plane basePlane2 = new Plane(basePoint2, v);
+
+        // Find intersections with the first base
         lst = basePlane1.findIntersections(ray);
-        if (lst != null)
+        if (lst != null) {
             for (Point point : lst) {
                 double distanceSquared = alignZero(point.distanceSquared(basePoint1));
-                if (alignZero(distanceSquared - radius*radius) < 0)
+                if (alignZero(distanceSquared - radius*radius) < 0) {
                     res.add(point);
+                }
             }
+        }
+
+        // Find intersections with the second base
         lst = basePlane2.findIntersections(ray);
-        if (lst != null)
+        if (lst != null) {
             for (Point point : lst) {
                 double distanceSquared = alignZero(point.distanceSquared(basePoint2));
-                if (alignZero(distanceSquared - radius*radius) < 0)
+                if (alignZero(distanceSquared - radius*radius) < 0) {
                     res.add(point);
+                }
             }
-        if (res.size() == 0)
+        }
+
+        if (res.size() == 0) {
             return null;
+        }
         return res;
     }
 

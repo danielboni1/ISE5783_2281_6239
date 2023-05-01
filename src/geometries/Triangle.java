@@ -20,13 +20,17 @@ public class Triangle extends Polygon {
         super(vertices);
     }
 
-
     @Override
     public List<Point> findIntersections(Ray ray) {
+        // Find the intersections between the Ray and the plane of the Polygon
         List<Point> result = plane.findIntersections(ray);
+
+        // If there are no intersections, return null
         if (result == null) {
             return null;
         }
+
+        // Calculate vectors and normals for the Polygon
         Point p0 = ray.getP0();
         Vector v = ray.getDir();
 
@@ -46,9 +50,13 @@ public class Triangle extends Polygon {
         double s2 = n2.dotProduct(v);
         double s3 = n3.dotProduct(v);
 
-        if (s1 > 0 && s2 > 0 && s3 > 0 || s1 < 0 && s2 < 0 && s3 < 0)
+        // Check if the intersections are valid
+        if (s1 > 0 && s2 > 0 && s3 > 0 || s1 < 0 && s2 < 0 && s3 < 0) {
+            // If all dot products have the same sign, the intersections are valid
             return result;
+        }
 
+        // If any dot product has a different sign than the others, there are no valid intersections
         return null;
     }
 }

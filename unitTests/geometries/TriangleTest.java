@@ -32,32 +32,36 @@ class TriangleTest {
     void testfindIntsersections()
     {
         // ============ Equivalence Partitions Tests ==============
-        //TC01 החיתוך בתוך המשולש
+        //TC01: The point of intersection inside the triangle
         Triangle triangle = new Triangle(new Point(1,0,0),new Point(0,-1,0),new Point(0,1,0));
         Ray ray = new Ray(new Point(0,0,-1),new Vector(1,0,2));
         Point P1 = new Point(0.5,0,0);
         List<Point> result= triangle.findIntersections(ray);
         assertEquals(1,result.size(),"number of elements is not equal");
         assertEquals(P1,result.get(0),"the point is wrong");
-        //TC02 החיתוך מחוץ למשולש מול הצלעות
+
+        //TC02: The intersection point is outside the triangle in front of the sides
         ray = new Ray(new Point(0,0,-1),new Vector(0.5,-5,1));
         result= triangle.findIntersections(ray);
         assertNull(result,"not suppose to be intsersection point");
-        //TC03 החיתוך מחוץ למשולש מול הקודקודים
+
+        //TC03: The point of intersection is outside the triangle opposite the vertices
         ray = new Ray(new Point(0,0,-1),new Vector(2,0,1));
         result= triangle.findIntersections(ray);
         assertNull(result,"not suppose to be intsersection point");
 
         // =============== Boundary Values Tests ==================
-        //TC10 חיתוך על צלע
+        //TC10: Intersection point on a side
         ray = new Ray(new Point(0,0,-1),new Vector(0,1,2));
         result= triangle.findIntersections(ray);
         assertNull(result,"not suppose to be intsersection point");
-        //TC11 חיתוך על קודקוד
+
+        //TC11: Intersection point on a vertex
         ray = new Ray(new Point(0,0,-1),new Vector(1,0,1));
         result= triangle.findIntersections(ray);
         assertNull(result,"not suppose to be intsersection point");
-        //TC12 חיתוך על המשך צלע
+
+        //TC12: Intersection on the continuation of a rib
         ray = new Ray(new Point(0,0,-1),new Vector(0,2,1));
         result= triangle.findIntersections(ray);
         assertNull(result,"not suppose to be intsersection point");
