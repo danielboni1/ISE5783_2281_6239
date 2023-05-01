@@ -54,7 +54,7 @@ public class Sphere extends RadialGeometry {
     }
     // This function takes a Ray object as input and returns a list of intersection points with the sphere
     @Override
-    public List<Point> findIntsersections(Ray ray)
+    public List<Point> findIntersections(Ray ray)
     {
         // Extracting the starting point of the Ray and its direction vector
         Point p0 =  ray.getP0();

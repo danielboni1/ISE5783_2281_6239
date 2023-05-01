@@ -4,7 +4,10 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static primitives.Util.alignZero;
 
 /**
  *  Represents a Cylinder in 3D Cartesian coordinate system, which is a tube with a height.
@@ -63,10 +66,46 @@ public class Cylinder extends Tube {
         return point.subtract(o).normalize();
     }
 
+
+
+     //we find the projection and calcs its size and if it is like the height the point inside the cylinder (we can use dot product cause the axsis in normalized )
     @Override
-    public List<Point> findIntsersections(Ray ray)
-    {
-        return null;
+    public List<Point> findIntersections(Ray ray) {
+        List<Point> res = new ArrayList<>();
+        List<Point> lst = super.findIntersections(ray);
+        if (lst != null)
+            for (Point point : lst) {
+                double distance = alignZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()));
+                if (distance > 0 && distance <= height)
+                    res.add(point);
+            }
+        Vector v = axisRay.getDir();
+        Point basePoint1 = axisRay.getP0();
+        Plane basePlane1 = new Plane(basePoint1, v);
+        Point basePoint2;
+        if (height != 0){
+            basePoint2 = basePoint1.add(v.scale(height));
+        }else{
+            basePoint2 = basePoint1;
+        }
+        Plane basePlane2 = new Plane(basePoint2, v);
+        lst = basePlane1.findIntersections(ray);
+        if (lst != null)
+            for (Point point : lst) {
+                double distanceSquared = alignZero(point.distanceSquared(basePoint1));
+                if (alignZero(distanceSquared - radius*radius) < 0)
+                    res.add(point);
+            }
+        lst = basePlane2.findIntersections(ray);
+        if (lst != null)
+            for (Point point : lst) {
+                double distanceSquared = alignZero(point.distanceSquared(basePoint2));
+                if (alignZero(distanceSquared - radius*radius) < 0)
+                    res.add(point);
+            }
+        if (res.size() == 0)
+            return null;
+        return res;
     }
 
 }

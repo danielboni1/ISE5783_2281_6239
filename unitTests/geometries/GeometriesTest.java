@@ -26,14 +26,14 @@ class GeometriesTest {
         geometries1.add(triangle1);
         geometries1.add(polygon1);
         Ray ray = new Ray(new Point(0, 0, 1), new Vector(0, 1, 0));
-        List<Point> result = geometries1.findIntsersections(ray);
+        List<Point> result = geometries1.findIntersections(ray);
         assertEquals(3, result.size(), "There are suppose to be 4 points");
 
         // =============== Boundary Values Tests ==================
         //TC10: Empty geometries collection
         Geometries geometries2 = new Geometries();
         ray = new Ray(new Point(0, 1, 0), new Vector(0, 1, 0));
-        result = geometries2.findIntsersections(ray);
+        result = geometries2.findIntersections(ray);
         assertNull(result, "TC10: The result is not null");
 
         //TC11: There is not a shape that intersect
@@ -42,7 +42,7 @@ class GeometriesTest {
         geometries2.add(triangle2);
         geometries2.add(polygon1);
         ray = new Ray(new Point(0, 0, 1), new Vector(1, 0, 0));
-        result = geometries2.findIntsersections(ray);
+        result = geometries2.findIntersections(ray);
         assertNull(result, "TC11: The result is not null");
         //TC12: Only one shape is intersect
         Geometries geometries3 = new Geometries();
@@ -52,11 +52,11 @@ class GeometriesTest {
         geometries3.add(polygon2);
         geometries3.add(triangle2);
         ray = new Ray(new Point(4.5, 0, 4.5), new Vector(0, 1, 0));
-        result = geometries3.findIntsersections(ray);
+        result = geometries3.findIntersections(ray);
         assertEquals(1, result.size(), "TC12: There are suppose to be 1 points");
         //TC13 All the shapes are intersect
         ray = new Ray(new Point(0, 0, 1), new Vector(0, 1, 0));
-        result = geometries2.findIntsersections(ray);
+        result = geometries2.findIntersections(ray);
         assertEquals(4, result.size(), "There are suppose to be 4 points");
 
     }

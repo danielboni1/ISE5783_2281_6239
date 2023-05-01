@@ -2,7 +2,6 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
-import primitives.Vector;
 
 import java.util.List;
 
@@ -16,6 +15,6 @@ public interface Intersectable {
      * @param ray the ray to intersect with the plane.
      * @return a list of intersection points, or null if there are no intersections.
      */
-    List<Point> findIntsersections(Ray ray);
+    List<Point> findIntersections(Ray ray);
 
 }
