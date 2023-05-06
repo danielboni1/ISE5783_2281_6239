@@ -1,5 +1,6 @@
 package geometries;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 import java.util.ArrayList;
@@ -120,12 +121,13 @@ public class Polygon implements Geometry {
         // Calculate dot products to determine if the intersections are valid
         List<Double> allS = new ArrayList<>();
         for (var i : allN) {
-            allS.add(i.dotProduct(v));
+            allS.add(alignZero(i.dotProduct(v)));
         }
         double checkIfSameSign = allS.get(0);
         for (var i : allS) {
             if (i * checkIfSameSign <= 0) {
-                // If any dot product has a different sign than the first, there are no valid intersections
+                // If any dot product has a different sign than the first,
+                // there are no valid intersections
                 return null;
             }
         }

@@ -10,6 +10,8 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
+
 public class Triangle extends Polygon {
     /**
      * Constructs a new Triangle object with the specified vertices.
@@ -46,9 +48,9 @@ public class Triangle extends Polygon {
         Vector n2 = v2.crossProduct(v3);
         Vector n3 = v3.crossProduct(v1);
 
-        double s1 = n1.dotProduct(v);
-        double s2 = n2.dotProduct(v);
-        double s3 = n3.dotProduct(v);
+        double s1 = alignZero(n1.dotProduct(v));
+        double s2 = alignZero(n2.dotProduct(v));
+        double s3 = alignZero(n3.dotProduct(v));
 
         // Check if the intersections are valid
         if (s1 > 0 && s2 > 0 && s3 > 0 || s1 < 0 && s2 < 0 && s3 < 0) {

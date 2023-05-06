@@ -74,8 +74,12 @@ public class PolygonTests {
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: There is a simple single test here - using a quad
-        Point[] pts =
-                {new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 1, 1)};
+        Point[] pts = {
+                new Point(0, 0, 1),
+                new Point(1, 0, 0),
+                new Point(0, 1, 0),
+                new Point(-1, 1, 1)
+        };
         Polygon pol = new Polygon(pts);
         // ensure there are no exceptions
         assertDoesNotThrow(() -> pol.getNormal(new Point(0, 0, 1)), "");
@@ -88,42 +92,66 @@ public class PolygonTests {
             assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
                     "Polygon's normal is not orthogonal to one of the edges");
     }
+
     @Test
-    void testfindIntsersections()
-    {
+    void testfindIntersections() {
         // ============ Equivalence Partitions Tests ==============
-        //TC01: The point of intersection inside the polygon
-        Polygon polygon = new Polygon(new Point(1,0,0),new Point(0,-1,0),new Point(0,1,0));
-        Ray ray = new Ray(new Point(0,0,-1),new Vector(1,0,2));
-        Point P1 = new Point(0.5,0,0);
-        List<Point> result= polygon.findIntersections(ray);
-        assertEquals(1,result.size(),"number of elements is not equal");
-        assertEquals(P1,result.get(0),"the point is wrong");
+        //TC01: The point of intersection inside the triangle
+        Point[] pts = {
+                new Point(1, 0, 0),
+                new Point(0, -1, 0),
+                new Point(0, 1, 0)
+        };
+
+        Polygon polygon = new Polygon(pts);
+        Plane plane = new Plane(pts[0], pts[1], pts[2]);
+
+        Ray ray = new Ray(new Point(0, 0, -1), new Vector(1, 0, 2));
+        Point expected = new Point(0.5, 0, 0);
+
+        List<Point> polygonResult = polygon.findIntersections(ray);
+        assertEquals(1, polygonResult.size(), "number of elements is not equal");
+        assertEquals(expected, polygonResult.get(0), "the point is wrong");
 
         //TC02: The intersection point is outside the triangle in front of the sides
-        ray = new Ray(new Point(0,0,-1),new Vector(0.5,-5,1));
-        result= polygon.findIntersections(ray);
-        assertNull(result,"not suppose to be intsersection point");
+        ray = new Ray(new Point(0, 0, -1), new Vector(0.5, -5, 1));
+        List<Point> planeResult = plane.findIntersections(ray);
+        polygonResult = polygon.findIntersections(ray);
+
+        assertNotNull(planeResult, "should be not null");
+        assertNull(polygonResult, "not suppose to be intersection point");
 
         //TC03: The point of intersection is outside the triangle opposite the vertices
-        ray = new Ray(new Point(0,0,-1),new Vector(2,0,1));
-        result= polygon.findIntersections(ray);
-        assertNull(result,"not suppose to be intsersection point");
+        ray = new Ray(new Point(0, 0, -1), new Vector(2, 0, 1));
+        planeResult = plane.findIntersections(ray);
+        polygonResult = polygon.findIntersections(ray);
+
+        assertNotNull(planeResult, "should be not null");
+        assertNull(polygonResult, "not suppose to be intersection point");
 
         // =============== Boundary Values Tests ==================
         //TC10: Intersection point on a side
-        ray = new Ray(new Point(0,0,-1),new Vector(0,1,2));
-        result= polygon.findIntersections(ray);
-        assertNull(result,"not suppose to be intsersection point");
+        ray = new Ray(new Point(0, 0, -1), new Vector(0, 1, 2));
+        planeResult = plane.findIntersections(ray);
+        polygonResult = polygon.findIntersections(ray);
+
+        assertNotNull(planeResult, "should be not null");
+        assertNull(polygonResult, "not suppose to be intersection point");
 
         //TC11: Intersection point on a vertex
-        ray = new Ray(new Point(0,0,-1),new Vector(1,0,1));
-        result= polygon.findIntersections(ray);
-        assertNull(result,"not suppose to be intsersection point");
+        ray = new Ray(new Point(0, 0, -1), new Vector(1, 0, 1));
+        planeResult = plane.findIntersections(ray);
+        polygonResult = polygon.findIntersections(ray);
+
+        assertNotNull(planeResult, "should be not null");
+        assertNull(polygonResult, "not suppose to be intersection point");
 
         //TC12: Intersection on the continuation of a rib
-        ray = new Ray(new Point(0,0,-1),new Vector(0,2,1));
-        result= polygon.findIntersections(ray);
-        assertNull(result,"not suppose to be intsersection point");
+        ray = new Ray(new Point(0, 0, -1), new Vector(0, 2, 1));
+        planeResult = plane.findIntersections(ray);
+        polygonResult = polygon.findIntersections(ray);
+
+        assertNotNull(planeResult, "should be not null");
+        assertNull(polygonResult, "not suppose to be intersection point");
     }
 }

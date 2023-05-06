@@ -5,6 +5,7 @@ import primitives.Ray;
 import primitives.Vector;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.alignZero;
@@ -68,7 +69,7 @@ public class Cylinder extends Tube {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        List<Point> res = new ArrayList<>();
+        List<Point> res = new LinkedList<>();
 
         // Find intersections with the sides of the Cylinder
         List<Point> lst = super.findIntersections(ray);
