@@ -40,6 +40,9 @@ class CylinderTest {
         assertEquals(new Vector(0,0,-1), normal, "normal is wrong");
     }
 
+    /***
+     * Test method for {@link geometries.Cylinder#findIntersections(Ray)}
+     */
     @Test
     public void testFindIntersections() {
         Cylinder cylinder = new Cylinder(1, new Ray(new Point(2, 0, 0), new Vector(0, 0, 1)), 10);
@@ -176,12 +179,12 @@ class CylinderTest {
         ray = new Ray(new Point(1, 0, 8), new Vector(1, 0, 1));
         result = cylinder.findIntersections(ray);
         assertNull(result,"should be null");
-        // case 33: Ray's through exactly between the buttom and cylinder exits exactly
+        // case 33: Ray's through exactly between the bottom and cylinder exits exactly
         // between the top and cylinder (0 points)
         ray = new Ray(new Point(0.8, 0, -1), new Vector(0.2, 0, 1));
         result = cylinder.findIntersections(ray);
         assertNull( result,"should be null");
-        // case 34: Ray's start exactly between the buttom and cylinder exits exactly
+        // case 34: Ray's start exactly between the bottom and cylinder exits exactly
         // between the top and cylinder (0 points)
         ray = new Ray(new Point(1, 0, 0), new Vector(0.2, 0, 1));
         result = cylinder.findIntersections(ray);
