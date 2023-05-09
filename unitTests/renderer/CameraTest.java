@@ -5,9 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import primitives.*;
-import renderer.Camera;
-
-import java.util.List;
 
 /**
  * Testing Camera Class

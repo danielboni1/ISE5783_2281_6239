@@ -23,12 +23,12 @@ public class Camera  {
     private Vector vUp;
 
     /**
-     * The to vector of the camera, used to determine its orientation.
+     * Vector to the center pixel, used to determine its orientation.
      */
     private Vector vTo;
 
     /**
-     * The right vector of the camera.
+     * Vector to right in the camera.
      */
     private Vector vRight;
 
@@ -68,7 +68,7 @@ public class Camera  {
     /**
      * Getter for the position of the camera.
      *
-     * @return the position of the camera.
+     * @return p0
      */
     public Point getP0() {
         return p0;
@@ -77,7 +77,7 @@ public class Camera  {
     /**
      * Getter for the TUp.
      *
-     * @return the up vector of the camera.
+     * @return the vector that directed upwards
      */
     public Vector getVUp() {
         return vUp;
@@ -86,7 +86,7 @@ public class Camera  {
     /**
      * Getter for the VTo.
      *
-     * @return the to vector of the camera.
+     * @return the vector that directed forwards
      */
     public Vector getVTo() {
         return vTo;
@@ -155,7 +155,7 @@ public class Camera  {
 
     /**
      * This method gets properties of a pixel in the
-     * view plane and returns the beam that comes
+     * view plane and returns the ray that comes
      * out of the camera to that pixel
      *
      * @param nX - the amount of the rows on the view plane.
@@ -178,10 +178,12 @@ public class Camera  {
         //The distance that the movedPoint should move from the
         //center point in order to get to the requested pixel.
         //(locating the point at the pixel).
-        double Xj = (j - (nX - 1) / 2d) * Rx; //location at the middle of the pixel
-        double Yi = -(i - (nY - 1) / 2d) * Ry;
 
-        //Moving the movedPoint to the pixel
+        //offsets for movePoint
+        double Xj = (j - (nX - 1) / 2d) * Rx;
+        double Yi = ((nY - 1)/2d - i) * Ry;
+
+        //Moving the movedPoint to the pixel if necessary
         if (!isZero(Xj)) {
             movedPoint = movedPoint.add(vRight.scale(Xj));
         }

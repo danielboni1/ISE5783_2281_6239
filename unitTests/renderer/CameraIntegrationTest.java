@@ -1,3 +1,5 @@
+package renderer;
+
 import geometries.Intersectable;
 import geometries.Plane;
 import geometries.Sphere;
@@ -12,6 +14,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Integration tests for Camera class with Ray-Sphere
+ * and Ray-Triangle intersections
+ */
 public class CameraIntegrationTest {
     //The general cameras for the tests
     Camera camera1 = new Camera(
@@ -25,11 +31,16 @@ public class CameraIntegrationTest {
             new Vector(0, -1, 0)
     );
 
-    //helper function
+    /**
+     * Helper method that asserts the amount of intersections of a given geometry and camera
+     *
+     * @param camera   The camera used in the test
+     * @param geo      The geometry to check intersections with
+     * @param expected The expected number of intersections
+     */
     private void assertCountIntersectionsEquals(Camera camera, Intersectable geo, int expected) {
         //preparing the list of the points and the actual result
         int result = 0;
-        List<Point> allIntersectionPoints = null;
 
         //setting the view plane:
         camera.setVPSize(3, 3);
@@ -37,14 +48,11 @@ public class CameraIntegrationTest {
         int nX = 3;
         int nY = 3;
 
-        for (int i = 0; i < nY; i++) {
-            for (int j = 0; j < nX; j++) {
-                var intersections = geo.findIntersections(camera.constructRay(nX, nY, j, i));
+        //todo
+        for (int row = 0; row < nY; row++) {
+            for (int column = 0; column < nX; column++) {
+                var intersections = geo.findIntersections(camera.constructRay(nX, nY, column, row));
                 if (intersections != null) {
-                    if (allIntersectionPoints == null) {
-                        allIntersectionPoints = new LinkedList<>();
-                    }
-                    allIntersectionPoints.addAll(intersections);
                     result += intersections.size();
                 }
             }
@@ -52,35 +60,41 @@ public class CameraIntegrationTest {
         assertEquals(expected, result, "The amount of intersection points wrong");
     }
 
+    /**
+     * Integration test for Camera-Ray-Triangle intersection
+     */
     @Test
     public void CameraRayTriangleIntegrationTest() {
-        //TC01: 1 POINT
+        //TC01: 1 POINT- a small one in front of the center pixel
         assertCountIntersectionsEquals(
                 camera1,
                 new Triangle(
-                        new Point(1, 1, -1),
-                        new Point(-1, 1, -1),
-                        new Point(0, -0.5, -1)
+                        new Point(0, 1, -2),
+                        new Point(1, -1, -2),
+                        new Point(-1, -1, -2)
                 ),
                 1);
-        //TC02: 2 POINTS
+        //TC02: 2 POINTS- a narrow and long one in front of 3 of the pixels
         assertCountIntersectionsEquals(
                 camera1,
                 new Triangle(
-                        new Point(1, 1, -1),
-                        new Point(-1, 1, -1),
-                        new Point(0, -10, -1)
+                        new Point(0, 20, -2),
+                        new Point(1, -1, -2),
+                        new Point(-1, -1, -2)
                 ),
                 2);
     }
 
+    /**
+     * Integration test for Camera-Ray-Plane intersection
+     */
     @Test
     public void CameraRayPlaneIntegrationTest() {
         //TCO1: Plane against camera
         assertCountIntersectionsEquals(
                 camera1,
                 new Plane(
-                        new Point(0, 0, -5),
+                        new Point(0, 0, -10),
                         new Vector(0, 0, 1)
                 ),
                 9
@@ -89,8 +103,8 @@ public class CameraIntegrationTest {
         //TCO2: Plane with small angle
         assertCountIntersectionsEquals(camera1,
                 new Plane(
-                        new Point(0, 0, -5),
-                        new Vector(0, 1, 2)
+                        new Point(0, 0, -10),
+                        new Vector(0, 5, 10)
                 ),
                 9
         );
@@ -98,7 +112,7 @@ public class CameraIntegrationTest {
         //TCO3: Plane parallel to lower rays
         assertCountIntersectionsEquals(camera1,
                 new Plane(
-                        new Point(0, 0, -10),
+                        new Point(0, 0, -1),
                         new Vector(0, 1, 1)
                 ),
                 6
@@ -115,6 +129,9 @@ public class CameraIntegrationTest {
 
     }
 
+    /**
+     * Integration test for Camera-Ray-Sphere intersection
+     */
     @Test
     public void CameraRaySphereIntegrationTest() {
         // TC01: Small Sphere
@@ -128,7 +145,8 @@ public class CameraIntegrationTest {
 
         // TC02: Big Sphere
         assertCountIntersectionsEquals(camera2,
-                new Sphere(2.5,
+                new Sphere(
+                        2.5,
                         new Point(0, 0, -2.5)
                 ),
                 18
