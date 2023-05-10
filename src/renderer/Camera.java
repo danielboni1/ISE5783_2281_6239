@@ -47,6 +47,10 @@ public class Camera  {
      */
     private double distance;
 
+    private ImageWriter imageWriter;
+
+    private RayTracerBase rayTracerBase;
+
     /**
      * Constructs a new Camera with the given position and orientation vectors.
      *
@@ -150,6 +154,17 @@ public class Camera  {
     public Camera setVPDistance(double distance)
     {
         this.distance = distance;
+        return this;
+    }
+
+    public Camera setimageWriter(ImageWriter imageWriter)
+    {
+        this.imageWriter = imageWriter;
+        return this;
+    }
+    public Camera setRayTracerBase(RayTracerBase rayTracerBase)
+    {
+        this.rayTracerBase = rayTracerBase;
         return this;
     }
 

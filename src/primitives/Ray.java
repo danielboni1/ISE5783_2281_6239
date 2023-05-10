@@ -3,6 +3,7 @@
  */
 package primitives;
 
+import java.util.List;
 import java.util.Objects;
 
 import static primitives.Util.isZero;
@@ -81,6 +82,21 @@ public class Ray {
             return p0;
         }
         return p0.add(dir.scale(t));
+    }
+    Point findClosestPoint(List<Point> points)//need to add tests
+    {
+        if (points == null)
+        {
+            return null;
+        }
+        Point smallestDistance = points.get(0);
+        for (Point p:points) {
+            if (p0.distance(p)< p0.distance(smallestDistance))
+            {
+                smallestDistance = p;
+            }
+        }
+        return smallestDistance;
     }
 
 }
