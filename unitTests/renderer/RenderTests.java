@@ -32,11 +32,11 @@ public class RenderTests {
                            // left
                            new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))); // down
       // right
-      Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+      Camera camera = new Camera(new Point(0,0,0), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
          .setVPDistance(100) //
          .setVPSize(500, 500) //
          .setImageWriter(new ImageWriter("base render test", 1000, 1000))
-         .setRayTracer(new RayTracerBasic(scene));
+         .setRayTracerBase(new RayTracerBasic(scene));
 
       camera.renderImage();
       camera.printGrid(100, new Color(YELLOW));
@@ -87,10 +87,10 @@ public class RenderTests {
       // ...
       // NB: unit tests is not the correct place to put XML parsing code
 
-      Camera camera = new Camera(Point.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0))     //
+      Camera camera = new Camera(new Point(0,0,0), new Vector(0, 0, -1), new Vector(0, 1, 0))     //
          .setVPDistance(100)                                                                //
          .setVPSize(500, 500).setImageWriter(new ImageWriter("xml render test", 1000, 1000))
-         .setRayTracer(new RayTracerBasic(scene));
+         .setRayTracerBase(new RayTracerBasic(scene));
       camera.renderImage();
       camera.printGrid(100, new Color(YELLOW));
       camera.writeToImage();

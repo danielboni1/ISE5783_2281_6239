@@ -1,6 +1,7 @@
 package renderer;
 
 import primitives.Color;
+import primitives.Point;
 import primitives.Ray;
 import scene.Scene;
 
@@ -11,9 +12,9 @@ public class RayTracerBasic extends RayTracerBase{
     }
 
     @Override
-    public Color traceRay(Ray ray)
-    {
-        return null;
+    public Color traceRay(Ray ray) {
+       
+
     }
 
 }

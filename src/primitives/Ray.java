@@ -43,7 +43,7 @@ public class Ray {
     }
 
     /**
-     * Returns the direction of the ray.
+     * Getter for dir.
      *
      * @return The direction of the ray.
      */
@@ -72,7 +72,7 @@ public class Ray {
     }
 
     /**
-     * calculating a point on a ray
+     * Calculating a point on a ray.
      *
      * @param t the length from p0
      * @return the point on the ray
@@ -83,16 +83,20 @@ public class Ray {
         }
         return p0.add(dir.scale(t));
     }
-    Point findClosestPoint(List<Point> points)//need to add tests
+
+    /**
+     * The function finds the closest point from the camera.
+     * @param points- the list of the points that the ray intersect.
+     * @return the closest point from the camera.
+     */
+    Point findClosestPoint(List<Point> points)
     {
-        if (points == null)
-        {
+        if (points == null) {
             return null;
         }
         Point smallestDistance = points.get(0);
-        for (Point p:points) {
-            if (p0.distance(p)< p0.distance(smallestDistance))
-            {
+        for (Point p : points) {
+            if (p0.distance(p) < p0.distance(smallestDistance)) {
                 smallestDistance = p;
             }
         }
