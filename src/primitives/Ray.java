@@ -89,7 +89,7 @@ public class Ray {
      * @param points- the list of the points that the ray intersect.
      * @return the closest point from the camera.
      */
-    Point findClosestPoint(List<Point> points)
+   public Point findClosestPoint(List<Point> points)
     {
         if (points == null) {
             return null;

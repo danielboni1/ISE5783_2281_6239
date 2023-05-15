@@ -5,6 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import scene.Scene;
 
+import java.util.List;
+
 public class RayTracerBasic extends RayTracerBase{
 
     public RayTracerBasic(Scene scene) {
@@ -13,8 +15,18 @@ public class RayTracerBasic extends RayTracerBase{
 
     @Override
     public Color traceRay(Ray ray) {
-       
-
+        List<Point> list = scene.geometries.findIntersections(ray);
+        if (list == null)
+        {
+            return scene.background;
+        }
+        Point closesPoint = ray.findClosestPoint(list);
+        return calcColor(closesPoint);
     }
+    private Color calcColor(Point point)
+    {
+        return scene.ambientLight.getIntensity();
+    }
+
 
 }
