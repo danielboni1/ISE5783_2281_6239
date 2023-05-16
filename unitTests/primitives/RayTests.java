@@ -43,7 +43,7 @@ class RayTests {
                         new Point(0, 0, 2),
                         new Point(10, 0, 0))),
                 new Point(0, 0, 2),
-                "Test 1 failed");
+                "Wrong point");
 
         // =============== Boundary Values Tests ==================
         //TC02: empty list
@@ -53,7 +53,7 @@ class RayTests {
         assertEquals(
                 new Point(1, 2, 3),
                 ray.findClosestPoint(List.of(new Point(1, 2, 3))),
-                "Test 3 failed");
+                "Wrong point");
 
         //TC04: the closest point is the first point of the list
         assertEquals(
@@ -63,7 +63,7 @@ class RayTests {
                         new Point(2, 2, 2),
                         new Point(3, 3, 3),
                         new Point(-10, -2, 0))),
-                "Test 4 failed");
+                "Wrong point");
 
         //TC05: the closest point is the last point of the list
         assertEquals(new Point(0, 0, 2),
@@ -72,6 +72,6 @@ class RayTests {
                         new Point(-7, 10, 0),
                         new Point(1, 2, 3),
                         new Point(0, 0, 2))),
-                "Test 5 failed");
+                "Wrong point");
     }
 }

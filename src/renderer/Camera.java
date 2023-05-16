@@ -8,7 +8,6 @@ import primitives.Vector;
 import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
-//todo: to fix the comments!!!!!!!!!!!!!!!!!
 /**
  *  The Camera class represents a virtual camera in a 3D scene.
  *  It defines the camera's position and orientation,
@@ -214,6 +213,11 @@ public class Camera  {
 
         return new Ray(p0, CameraToPixel);
     }
+
+    /**
+     * Renders the image by casting rays from the camera to each pixel on the view plane.
+     * Writes the computed pixel colors to the image writer.
+     */
     public void  renderImage() {
         try {
             if (imageWriter == null) {
@@ -235,11 +239,32 @@ public class Camera  {
             throw new UnsupportedOperationException("Not implemented yet" + ex.getClassName());
         }
     }
+    /**
+     * Casts a ray from the camera to the specified pixel and returns the color of the intersected object.
+     *
+     * @param nX the amount of rows on the view plane.
+     * @param nY the amount of columns on the view plane.
+     * @param i the index of the pixel's row.
+     * @param j the index of the pixel's column.
+     *
+     * @return the color of the intersected object.
+     */
+
     private Color castRay(int nX, int nY, int i, int j) {
         Ray ray = constructRay(nX, nY, j, i);
         Color pixelColor = rayTracerBase.traceRay(ray);
         return pixelColor;
     }
+
+    /**
+     * Prints a grid on the image writer with the specified interval and color.
+     *
+     * @param interval the interval between grid lines.
+     * @param color the color of the grid lines.
+     *
+     * @throws MissingResourceException if the image writer is not set.
+     *
+     */
     public void printGrid(int interval, Color color)
     {
         if (imageWriter==null)
@@ -252,6 +277,12 @@ public class Camera  {
             }
         }
     }
+
+    /**
+     * Writes the image to the output file using the ImageWriter.
+     *
+     * @throws MissingResourceException if the image writer is not set.
+     */
     public void writeToImage()
     {
         if (imageWriter==null)

@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Collection of geometries that describes a scene together.
  * Contains a list of the geometries in the scene.
- * This class implements Intersectable interface.
+ * This class implements Intersectale interface.
  */
 
 public class Geometries implements Intersectable{
