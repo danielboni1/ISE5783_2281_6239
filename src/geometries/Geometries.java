@@ -11,7 +11,7 @@ import java.util.*;
  * This class implements Intersectale interface.
  */
 
-public class Geometries implements Intersectable{
+public class Geometries extends Intersectable{
 
     private List<Intersectable> GeometryList;
 
@@ -30,11 +30,11 @@ public class Geometries implements Intersectable{
 
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> result = null;
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> result = null;
         for(var item : GeometryList)
         {
-            List<Point> itemList = item.findIntersections(ray);
+            List<GeoPoint> itemList = item.findGeoIntersectionsHelper(ray);
             if (itemList != null)
             {
                 if (result == null)

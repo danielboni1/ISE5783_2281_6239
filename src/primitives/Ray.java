@@ -2,7 +2,7 @@
  * The Ray class represents a ray in 3D space.
  */
 package primitives;
-
+import geometries.Intersectable.GeoPoint;
 import java.util.List;
 import java.util.Objects;
 
@@ -91,12 +91,16 @@ public class Ray {
      * @return the closest point from the camera.
      */
     public Point findClosestPoint(List<Point> points) {
-        if (points == null) {
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+    }
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints) {
+        if (geoPoints == null) {
             return null;
         }
-        Point smallestDistance = points.get(0);
-        for (Point p : points) {
-            if (p0.distance(p) < p0.distance(smallestDistance)) {
+        GeoPoint smallestDistance = geoPoints.get(0);
+        for (GeoPoint p : geoPoints) {
+            if (p0.distance(p.point) < p0.distance(smallestDistance.point)) {
                 smallestDistance = p;
             }
         }

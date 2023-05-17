@@ -65,7 +65,7 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Vector dir = ray.getDir();
         Vector v = axisRay.getDir();
         double dirV = dir.dotProduct(v);
@@ -75,15 +75,15 @@ public class Tube extends RadialGeometry {
             //If the ray and the axis ray are in the same direction
             if (isZero(dirV))
                 //Return p0+radius
-                return List.of(ray.getPoint(radius));
+                return List.of(new GeoPoint(this,ray.getPoint(radius)));
             //Opposite directions-> there are no intersection points
             if (dir.equals(v.scale(dir.dotProduct(v))))
                 return null;
 
             //If it's not in the same direction and not in opposite directions
-            return List.of(ray.getPoint(
+            return List.of(new GeoPoint(this, ray.getPoint(
                     Math.sqrt(radius * radius / dir.subtract(v.scale(dir.dotProduct(v)))
-                            .lengthSquared())));
+                            .lengthSquared()))));
         }
 
         Vector deltaP = ray.getP0().subtract(axisRay.getP0());
@@ -97,7 +97,7 @@ public class Tube extends RadialGeometry {
             if (isZero(b)) { // If a constant equation.
                 return null;
             }
-            return List.of(ray.getPoint(-c / b)); // if it's linear, there's a solution.
+            return List.of(new GeoPoint(this,ray.getPoint(-c / b))); // if it's linear, there's a solution.
         }
 
         double discriminant = alignZero(b * b - 4 * a * c);
@@ -113,19 +113,19 @@ public class Tube extends RadialGeometry {
             return null;
 
         if (t1 > 0 && t2 > 0) {
-            List<Point> _points = new LinkedList<Point>();
-            _points.add(ray.getPoint(t1));
-            _points.add(ray.getPoint(t2));
+            List<GeoPoint> _points = new LinkedList<GeoPoint>();
+            _points.add(new GeoPoint(this, ray.getPoint(t1)));
+            _points.add(new GeoPoint(this,ray.getPoint(t2)));
             return _points;
         }
         else if (t1 > 0) {
-            List<Point> _points = new LinkedList<Point>();
-            _points.add(ray.getPoint(t1));
+            List<GeoPoint> _points = new LinkedList<GeoPoint>();
+            _points.add(new GeoPoint(this,ray.getPoint(t1)));
             return _points;
         }
         else if (t2 > 0) {
-            List<Point> _points = new LinkedList<Point>();
-            _points.add(ray.getPoint(t2));
+            List<GeoPoint> _points = new LinkedList<GeoPoint>();
+            _points.add(new GeoPoint(this,ray.getPoint(t2)));
             return _points;
         }
         return null;

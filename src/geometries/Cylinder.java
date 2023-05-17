@@ -68,8 +68,8 @@ public class Cylinder extends Tube {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> res = new LinkedList<>();
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> res = new LinkedList<>();
 
         // Find intersections with the sides of the Cylinder
         List<Point> lst = super.findIntersections(ray);
@@ -77,7 +77,7 @@ public class Cylinder extends Tube {
             for (Point point : lst) {
                 double distance = alignZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()));
                 if (distance > 0 && distance <= height) {
-                    res.add(point);
+                    res.add(new GeoPoint(this,point));
                 }
             }
         }
@@ -100,7 +100,7 @@ public class Cylinder extends Tube {
             for (Point point : lst) {
                 double distanceSquared = alignZero(point.distanceSquared(basePoint1));
                 if (alignZero(distanceSquared - radius*radius) < 0) {
-                    res.add(point);
+                    res.add(new GeoPoint(this,point));
                 }
             }
         }
@@ -111,7 +111,7 @@ public class Cylinder extends Tube {
             for (Point point : lst) {
                 double distanceSquared = alignZero(point.distanceSquared(basePoint2));
                 if (alignZero(distanceSquared - radius*radius) < 0) {
-                    res.add(point);
+                    res.add(new GeoPoint(this,point));
                 }
             }
         }
