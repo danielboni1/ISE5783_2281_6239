@@ -1,18 +1,16 @@
+
+package geometries;
+
+import primitives.*;
+
+import java.util.List;
 /**
  * The Geometry interface represents a geometric shape in a three-dimensional space.
  * It provides methods for getting the normal vector of the shape at a specific point.
  * */
-package geometries;
-
-import primitives.Color;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
-
-import java.util.List;
-
 public abstract class Geometry extends Intersectable{
     protected Color emission = Color.BLACK;
+    private Material material =new Material();
 
     /**
      * Returns the normal vector of the shape at the specified point.
@@ -23,12 +21,32 @@ public abstract class Geometry extends Intersectable{
     public abstract Vector getNormal(Point point);
 
 
+    /**
+     * Getter.
+     *
+     * @return the emission color of the geometry.
+     */
     public Color getEmission() {
         return emission;
     }
 
+    /**
+     * Setter.
+     *
+     * @param emission- the emission color to set.
+     * @return the geometry object with the updated emission color.
+     */
     public Geometry setEmission(Color emission) {
         this.emission = emission;
+        return this;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public Geometry setMaterial(Material material) {
+        this.material = material;
         return this;
     }
 }

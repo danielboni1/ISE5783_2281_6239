@@ -8,12 +8,13 @@ import primitives.Vector;
 import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
+
 /**
- *  The Camera class represents a virtual camera in a 3D scene.
- *  It defines the camera's position and orientation,
- *  as well as the size and distance of its view plane.
+ * The Camera class represents a virtual camera in a 3D scene.
+ * It defines the camera's position and orientation,
+ * as well as the size and distance of its view plane.
  */
-public class Camera  {
+public class Camera {
     /**
      * The camera's position in the scene.
      */
@@ -56,7 +57,7 @@ public class Camera  {
     /**
      * Constructs a new Camera with the given position and orientation vectors.
      *
-     * @param p0 the position of the camera.
+     * @param p0  the position of the camera.
      * @param vto the to vector of the camera.
      * @param vup the up vector of the camera.
      * @throws IllegalArgumentException if the vto and vup vectors are not orthogonal.
@@ -137,7 +138,7 @@ public class Camera  {
     /**
      * Sets the width and height of the camera's view plane.
      *
-     * @param width the width of the camera's view plane.
+     * @param width  the width of the camera's view plane.
      * @param height the height of the camera's view plane.
      * @return the Camera with the width and height.
      */
@@ -148,24 +149,35 @@ public class Camera  {
     }
 
     /**
-     * Setter for the distance
+     * Setter for the distance.
      *
      * @param distance- the distance from the center of the camera
      * @return the Camera with the distance.
      */
-    public Camera setVPDistance(double distance)
-    {
+    public Camera setVPDistance(double distance) {
         this.distance = distance;
         return this;
     }
 
-    public Camera setImageWriter(ImageWriter imageWriter)
-    {
+
+    /**
+     * Setter.
+     *
+     * @param imageWriter- the image writer with the inserted properties.
+     * @return the Camera object with the updated ImageWriter.
+     */
+    public Camera setImageWriter(ImageWriter imageWriter) {
         this.imageWriter = imageWriter;
         return this;
     }
-    public Camera setRayTracerBase(RayTracerBase rayTracerBase)
-    {
+
+    /**
+     * Setter.
+     *
+     * @param rayTracerBase- the RayTracerBase to be set.
+     * @return the Camera object with the updated RayTracerBase.
+     */
+    public Camera setRayTracerBase(RayTracerBase rayTracerBase) {
         this.rayTracerBase = rayTracerBase;
         return this;
     }
@@ -175,14 +187,13 @@ public class Camera  {
      * view plane and returns the ray that comes
      * out of the camera to that pixel
      *
-     * @param nX - the amount of the rows on the view plane.
+     * @param nX  - the amount of the rows on the view plane.
      * @param nY- the amount of the columns on the view plane.
-     * @param j - index of x.
-     * @param i - index of y.
+     * @param j   - index of x.
+     * @param i   - index of y.
      * @return the ray that intersects the pixel.
      */
-    public Ray constructRay(int nX, int nY, int j, int i)
-    {
+    public Ray constructRay(int nX, int nY, int j, int i) {
         //The starting point
         Point center = p0.add(vTo.scale(distance));
 
@@ -198,7 +209,7 @@ public class Camera  {
 
         //offsets for movePoint
         double Xj = (j - (nX - 1) / 2d) * Rx;
-        double Yi = ((nY - 1)/2d - i) * Ry;
+        double Yi = ((nY - 1) / 2d - i) * Ry;
 
         //Moving the movedPoint to the pixel if necessary
         if (!isZero(Xj)) {
@@ -218,7 +229,7 @@ public class Camera  {
      * Renders the image by casting rays from the camera to each pixel on the view plane.
      * Writes the computed pixel colors to the image writer.
      */
-    public void  renderImage() {
+    public Camera renderImage() {
         try {
             if (imageWriter == null) {
                 throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
@@ -230,23 +241,24 @@ public class Camera  {
             int NY = imageWriter.getNy();
             for (int i = 0; i < NY; i++) {
                 for (int j = 0; j < NX; j++) {
-                    Color pixelColor = castRay(NX,NY,i,j);
-                    imageWriter.writePixel(j,i,pixelColor);
+                    Color pixelColor = castRay(NX, NY, i, j);
+                    imageWriter.writePixel(j, i, pixelColor);
 
                 }
             }
         } catch (MissingResourceException ex) {
             throw new UnsupportedOperationException("Not implemented yet" + ex.getClassName());
         }
+        return this;
     }
+
     /**
      * Casts a ray from the camera to the specified pixel and returns the color of the intersected object.
      *
      * @param nX the amount of rows on the view plane.
      * @param nY the amount of columns on the view plane.
-     * @param i the index of the pixel's row.
-     * @param j the index of the pixel's column.
-     *
+     * @param i  the index of the pixel's row.
+     * @param j  the index of the pixel's column.
      * @return the color of the intersected object.
      */
 
@@ -260,15 +272,12 @@ public class Camera  {
      * Prints a grid on the image writer with the specified interval and color.
      *
      * @param interval the interval between grid lines.
-     * @param color the color of the grid lines.
-     *
+     * @param color    the color of the grid lines.
      * @throws MissingResourceException if the image writer is not set.
-     *
      */
-    public void printGrid(int interval, Color color)
-    {
-        if (imageWriter==null)
-            throw new MissingResourceException("missing resource",ImageWriter.class.getName(),"");
+    public void printGrid(int interval, Color color) {
+        if (imageWriter == null)
+            throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
         for (int i = 0; i < imageWriter.getNy(); i++) {
             for (int j = 0; j < imageWriter.getNx(); j++) {
                 if (i % interval == 0 || j % interval == 0) {
@@ -283,11 +292,11 @@ public class Camera  {
      *
      * @throws MissingResourceException if the image writer is not set.
      */
-    public void writeToImage()
-    {
-        if (imageWriter==null)
-            throw new MissingResourceException("missing resource",ImageWriter.class.getName(),"");
+    public Camera writeToImage() {
+        if (imageWriter == null)
+            throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
         imageWriter.writeToImage();
+        return this;
     }
 
 }
