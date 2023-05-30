@@ -13,6 +13,7 @@ import static primitives.Util.isZero;
 public class SpotLight extends PointLight {
 
      private Vector direction;
+     private double NarrowBeam =1;
 
      /**
       * Constructs a SpotLight object with the given intensity, position, and direction.
@@ -36,7 +37,15 @@ public class SpotLight extends PointLight {
           }
 
           double factor = Math.max(0, projection);
-
+          if (NarrowBeam!=1)
+          {
+               factor = Math.pow(factor, NarrowBeam);
+          }
           return Ic.scale(factor);
+     }
+
+     public SpotLight setNarrowBeam(double narrowBeam) {
+          NarrowBeam = narrowBeam;
+          return this;
      }
 }
