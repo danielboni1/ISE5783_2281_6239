@@ -72,11 +72,12 @@ public class Cylinder extends Tube {
         List<GeoPoint> res = new LinkedList<>();
 
         // Find intersections with the sides of the Cylinder
-        List<Point> lst = super.findIntersections(ray);
-        if (lst != null) {
-            for (Point point : lst) {
+        List<GeoPoint> lst = super.findGeoIntersectionsHelper(ray);
+        List<Point> lstPoint = lst == null ? null : lst.stream().map(gp -> gp.point).toList();
+        if (lstPoint != null) {
+            for (Point point : lstPoint) {
                 double distance = alignZero(point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()));
-                if (distance > 0 && distance <= height) {
+                if (distance > 0 && alignZero(height-distance)>0) {
                     res.add(new GeoPoint(this,point));
                 }
             }
@@ -95,9 +96,10 @@ public class Cylinder extends Tube {
         Plane basePlane2 = new Plane(basePoint2, v);
 
         // Find intersections with the first base
-        lst = basePlane1.findIntersections(ray);
-        if (lst != null) {
-            for (Point point : lst) {
+        lst = basePlane1.findGeoIntersectionsHelper(ray);
+        lstPoint = lst == null ? null : lst.stream().map(gp -> gp.point).toList();
+        if (lstPoint != null) {
+            for (Point point : lstPoint) {
                 double distanceSquared = alignZero(point.distanceSquared(basePoint1));
                 if (alignZero(distanceSquared - radius*radius) < 0) {
                     res.add(new GeoPoint(this,point));
@@ -106,9 +108,10 @@ public class Cylinder extends Tube {
         }
 
         // Find intersections with the second base
-        lst = basePlane2.findIntersections(ray);
-        if (lst != null) {
-            for (Point point : lst) {
+        lst = basePlane2.findGeoIntersectionsHelper(ray);
+        lstPoint = lst == null ? null : lst.stream().map(gp -> gp.point).toList();
+        if (lstPoint != null) {
+            for (Point point : lstPoint) {
                 double distanceSquared = alignZero(point.distanceSquared(basePoint2));
                 if (alignZero(distanceSquared - radius*radius) < 0) {
                     res.add(new GeoPoint(this,point));
