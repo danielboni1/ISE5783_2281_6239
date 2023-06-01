@@ -23,9 +23,9 @@ public class Triangle extends Polygon {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
         // Find the intersections between the Ray and the plane of the Polygon
-        List<GeoPoint> result = plane.findGeoIntersectionsHelper(ray);
+        List<GeoPoint> result = plane.findGeoIntersectionsHelper(ray,maxDistance);
 
         // If there are no intersections, return null
         if (result == null) {

@@ -177,7 +177,7 @@ public class Camera {
      * @param rayTracerBase- the RayTracerBase to be set.
      * @return the Camera object with the updated RayTracerBase.
      */
-    public Camera setRayTracerBase(RayTracerBase rayTracerBase) {
+    public Camera setRayTracer(RayTracerBase rayTracerBase) {
         this.rayTracerBase = rayTracerBase;
         return this;
     }
@@ -296,6 +296,46 @@ public class Camera {
         if (imageWriter == null)
             throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
         imageWriter.writeToImage();
+        return this;
+    }
+
+
+    /**
+     * turns the camera by a given angle
+     */
+    public Camera pivot(double angle) {
+        angle = Math.toRadians(angle);
+        vUp = vUp.turn(angle, vRight);
+        vRight = vRight.turn(angle, vUp.scale(-1));
+        return this;
+    }
+
+    public Camera turnRight(double angle) {
+        angle = Math.toRadians(angle);
+        vTo = vTo.turn(angle, vRight);
+        vRight = vRight.turn(angle, vUp.scale(-1));
+        return this;
+    }
+
+    public Camera turnUp(double angle) {
+        angle = Math.toRadians(angle);
+        vTo = vTo.turn(angle, vUp);
+        vUp = vUp.turn(angle, vTo.scale(-1));
+        return this;
+    }
+
+    public Camera moveUp(double distance) {
+        p0 = p0.add(vUp.scale(distance));
+        return this;
+    }
+
+    public Camera moveTo(double distance) {
+        p0 = p0.add(vTo.scale(distance));
+        return this;
+    }
+
+    public Camera moveRight(double distance) {
+        p0 = p0.add(vRight.scale(distance));
         return this;
     }
 

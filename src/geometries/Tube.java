@@ -65,7 +65,7 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
         Vector dir = ray.getDir();
         Vector v = axisRay.getDir();
         double dirV = dir.dotProduct(v);
@@ -73,7 +73,7 @@ public class Tube extends RadialGeometry {
         // In case the ray starts on the p0 of the axis ray.
         if (ray.getP0().equals(axisRay.getP0())) {
             //If the ray and the axis ray are in the same direction
-            if (isZero(dirV))
+            if (isZero(dirV)&&alignZero(radius - maxDistance) <= 0)
                 //Return p0+radius
                 return List.of(new GeoPoint(this,ray.getPoint(radius)));
             //Opposite directions-> there are no intersection points
@@ -81,9 +81,12 @@ public class Tube extends RadialGeometry {
                 return null;
 
             //If it's not in the same direction and not in opposite directions
-            return List.of(new GeoPoint(this, ray.getPoint(
-                    Math.sqrt(radius * radius / dir.subtract(v.scale(dir.dotProduct(v)))
-                            .lengthSquared()))));
+            if (alignZero(radius - maxDistance) <= 0)
+            {
+                return List.of(new GeoPoint(this, ray.getPoint(
+                        Math.sqrt(radius * radius / dir.subtract(v.scale(dir.dotProduct(v)))
+                                .lengthSquared()))));
+            }
         }
 
         Vector deltaP = ray.getP0().subtract(axisRay.getP0());
@@ -92,12 +95,11 @@ public class Tube extends RadialGeometry {
         double a = 1 - dirV * dirV;
         double b = 2 * (dir.dotProduct(deltaP) - dirV * dpV);
         double c = deltaP.lengthSquared() - dpV * dpV - radius * radius;
-
         if (isZero(a)) {
             if (isZero(b)) { // If a constant equation.
                 return null;
             }
-            return List.of(new GeoPoint(this,ray.getPoint(-c / b))); // if it's linear, there's a solution.
+            return alignZero(-c / b - maxDistance) >= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(-c / b)));
         }
 
         double discriminant = alignZero(b * b - 4 * a * c);
@@ -112,18 +114,18 @@ public class Tube extends RadialGeometry {
         if (discriminant <= 0) // No real solutions ("MERUKAV").
             return null;
 
-        if (t1 > 0 && t2 > 0) {
+        if (t1 > 0 && t2 > 0 && alignZero(t1-maxDistance)<=0&&alignZero(t2-maxDistance)<=0) {
             List<GeoPoint> _points = new LinkedList<GeoPoint>();
             _points.add(new GeoPoint(this, ray.getPoint(t1)));
             _points.add(new GeoPoint(this,ray.getPoint(t2)));
             return _points;
         }
-        else if (t1 > 0) {
+        else if (t1 > 0 && alignZero(t1-maxDistance)<=0) {
             List<GeoPoint> _points = new LinkedList<GeoPoint>();
             _points.add(new GeoPoint(this,ray.getPoint(t1)));
             return _points;
         }
-        else if (t2 > 0) {
+        else if (t2 > 0 && alignZero(t1-maxDistance)<=0) {
             List<GeoPoint> _points = new LinkedList<GeoPoint>();
             _points.add(new GeoPoint(this,ray.getPoint(t2)));
             return _points;

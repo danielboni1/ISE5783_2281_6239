@@ -54,12 +54,13 @@ public class Sphere extends RadialGeometry {
     }
     // This function takes a Ray object as input and returns a list of intersection points with the sphere
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray)
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance)
     {
         // Extracting the starting point of the Ray and its direction vector
         Point p0 =  ray.getP0();
         Vector v = ray.getDir();
         Vector u;
+
 
         // Checking whether the Ray starts at the center of the sphere
         try{
@@ -70,8 +71,12 @@ public class Sphere extends RadialGeometry {
             // If the Ray starts at the center of the sphere,
             // the intersection points are the endpoints of the diameter
             Point p1 = ray.getPoint(radius);
-            GeoPoint geoP1 = new GeoPoint(this,p1);
-            return List.of(geoP1);
+            if (alignZero(radius-maxDistance)<=0)
+            {
+                GeoPoint geoP1 = new GeoPoint(this,p1);
+                return List.of(geoP1);
+            }
+            return null;
         }
 
         // Calculating the intersection points
@@ -86,7 +91,7 @@ public class Sphere extends RadialGeometry {
         double th= Math.sqrt(thSquared);
         double t1 = alignZero(tm+th);
         double t2 = alignZero(tm-th);
-        if (t1>0 && t2>0)
+        if (t1>0 && t2>0 && alignZero(t1-maxDistance)<=0 && alignZero(t2-maxDistance)<=0)
         {
             // If the Ray intersects the sphere at two points, return both points
             Point p1 = ray.getPoint(t1);
@@ -95,13 +100,13 @@ public class Sphere extends RadialGeometry {
             GeoPoint geoP2 = new GeoPoint(this,p2);
             return List.of(geoP1,geoP2);
         }
-        if (t1>0){
+        if (t1>0&&alignZero(t1-maxDistance)<=0){
             // If the Ray intersects the sphere at only p1, return that point
             Point p1 = ray.getPoint(t1);
             GeoPoint geoP1 = new GeoPoint(this,p1);
             return List.of(geoP1);
         }
-        if (t2>0)
+        if (t2>0&&alignZero(t2-maxDistance)<=0)
         {
             // If the Ray intersects the sphere at only p2, return that point
             Point p2 = ray.getPoint(t2);

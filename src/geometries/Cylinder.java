@@ -68,11 +68,11 @@ public class Cylinder extends Tube {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
         List<GeoPoint> res = new LinkedList<>();
 
         // Find intersections with the sides of the Cylinder
-        List<GeoPoint> lst = super.findGeoIntersectionsHelper(ray);
+        List<GeoPoint> lst = super.findGeoIntersectionsHelper(ray, maxDistance);
         List<Point> lstPoint = lst == null ? null : lst.stream().map(gp -> gp.point).toList();
         if (lstPoint != null) {
             for (Point point : lstPoint) {
@@ -96,7 +96,7 @@ public class Cylinder extends Tube {
         Plane basePlane2 = new Plane(basePoint2, v);
 
         // Find intersections with the first base
-        lst = basePlane1.findGeoIntersectionsHelper(ray);
+        lst = basePlane1.findGeoIntersectionsHelper(ray,3000);
         lstPoint = lst == null ? null : lst.stream().map(gp -> gp.point).toList();
         if (lstPoint != null) {
             for (Point point : lstPoint) {
@@ -108,7 +108,7 @@ public class Cylinder extends Tube {
         }
 
         // Find intersections with the second base
-        lst = basePlane2.findGeoIntersectionsHelper(ray);
+        lst = basePlane2.findGeoIntersectionsHelper(ray,3000);
         lstPoint = lst == null ? null : lst.stream().map(gp -> gp.point).toList();
         if (lstPoint != null) {
             for (Point point : lstPoint) {

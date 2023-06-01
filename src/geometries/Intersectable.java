@@ -29,8 +29,11 @@ public abstract class Intersectable {
      * @param ray the ray to intersect with the shape.
      * @return a list of GeoPoints representing the intersections, or null if there are no intersections.
      */
-    public List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
     }
 
     /**
@@ -40,7 +43,7 @@ public abstract class Intersectable {
      * @param ray the ray to intersect with the shape.
      * @return a list of GeoPoints representing the intersections, or null if there are no intersections.
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
     /**
      * Represents a geometric point on the shape.

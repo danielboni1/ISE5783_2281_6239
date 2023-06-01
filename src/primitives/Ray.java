@@ -12,6 +12,8 @@ import static primitives.Util.isZero;
  * The Ray class represents a ray in 3D space.
  */
 public class Ray {
+
+    private static final double DELTA = 0.1;
     /**
      * The starting point of the ray.
      */
@@ -33,6 +35,14 @@ public class Ray {
         this.dir = dir.normalize();
     }
 
+    public Ray(Point p, Vector n, Vector dir) {
+        this.dir = dir.normalize();
+        double nv = n.dotProduct(this.dir);
+        Vector delta  =n.scale(DELTA);
+        if (nv < 0)
+            delta = delta.scale(-1);
+        this.p0 = p.add(delta);
+    }
     /**
      * Returns the starting point of the ray.
      *

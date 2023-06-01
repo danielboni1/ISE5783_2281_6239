@@ -177,54 +177,74 @@ public class CameraIntegrationTest {
                 0
         );
     }
+
     /**
      * Integration test for Camera-Ray-Tube intersection
      */
     @Test
-    void CameraRayTubeIntegrationTest(){
+    void CameraRayTubeIntegrationTest() {
+
         // TC01: Big Tube in front of the vp
-        Ray ray = new Ray(new Point(0,100,-10),new Vector(0,-1,0));
-        Tube tube = new Tube(9,ray);
-        assertCountIntersectionsEquals(camera1,tube,18);
+        Ray ray = new Ray(new Point(0, 100, -10), new Vector(0, -1, 0));
+        Tube tube = new Tube(9, ray);
+
+        assertCountIntersectionsEquals(camera1, tube, 18);
+
         // TC02: vp inside the Big Tube
-        ray =new Ray(new Point(0,100,0),new Vector(0,-1,0));
-        tube = new Tube(9,ray);
-        assertCountIntersectionsEquals(camera1,tube,9);
+        ray = new Ray(new Point(0, 100, 0), new Vector(0, -1, 0));
+        tube = new Tube(9, ray);
+
+        assertCountIntersectionsEquals(camera1, tube, 9);
+
         // TC03: small Tube in front the vp
-        ray = new Ray(new Point(0,100,-10),new Vector(0,-1,0));
-        tube = new Tube(3,ray);
-        assertCountIntersectionsEquals(camera1,tube,6);
+        ray = new Ray(new Point(0, 100, -10), new Vector(0, -1, 0));
+        tube = new Tube(3, ray);
+
+        assertCountIntersectionsEquals(camera1, tube, 6);
+
         // TC04:small hypotenuse Tube in front the vp
-        ray = new Ray(new Point(-1.5,-1.5,-3),new Vector(1,1,0));
-        tube = new Tube(1,ray);
-        assertCountIntersectionsEquals(camera1,tube,6);
+        ray = new Ray(new Point(-1.5, -1.5, -3), new Vector(1, 1, 0));
+        tube = new Tube(1, ray);
+
+        assertCountIntersectionsEquals(camera1, tube, 6);
 
     }
+
     /**
      * Integration test for Camera-Ray-Cylinder intersection
      */
     @Test
-    void CameraRayCylinderIntegrationTest(){
+    void CameraRayCylinderIntegrationTest() {
+
         // TC01: Big cylinder in front of the vp
-        Ray ray = new Ray(new Point(0,2,-10),new Vector(0,-1,0));
-        Cylinder cylinder = new Cylinder(9,ray,10);
-        assertCountIntersectionsEquals(camera1,cylinder,18);
+        Ray ray = new Ray(new Point(0, 2, -10), new Vector(0, -1, 0));
+        Cylinder cylinder = new Cylinder(9, ray, 10);
+
+        assertCountIntersectionsEquals(camera1, cylinder, 18);
+
         // TC02:  vp inside the Big cylinder
-        ray =new Ray(new Point(0,2,0),new Vector(0,-1,0));
-        cylinder = new Cylinder(9,ray,10);
-        assertCountIntersectionsEquals(camera1,cylinder,9);
+        ray = new Ray(new Point(0, 2, 0), new Vector(0, -1, 0));
+        cylinder = new Cylinder(9, ray, 10);
+
+        assertCountIntersectionsEquals(camera1, cylinder, 9);
+
         // TC03: small cylinder in front the vp
-        ray = new Ray(new Point(0,10,-5),new Vector(0,-1,0));
-        cylinder = new Cylinder(1,ray,20);
-        assertCountIntersectionsEquals(camera1,cylinder,6);
+        ray = new Ray(new Point(0, 10, -5), new Vector(0, -1, 0));
+        cylinder = new Cylinder(1, ray, 20);
+
+        assertCountIntersectionsEquals(camera1, cylinder, 6);
+
         // TC04:small hypotenuse Tube in front the vp
-        ray = new Ray(new Point(-3.5,-3.5,-3),new Vector(1,1,0));
-        cylinder = new Cylinder(1,ray,20);
-        assertCountIntersectionsEquals(camera1,cylinder,6);
+        ray = new Ray(new Point(-3.5, -3.5, -3), new Vector(1, 1, 0));
+        cylinder = new Cylinder(1, ray, 20);
+
+        assertCountIntersectionsEquals(camera1, cylinder, 6);
+
         // TC05: Big cylinder in front of the vp
-        ray = new Ray(new Point(0,0.5,-4),new Vector(0,-1,0));
-        cylinder = new Cylinder(0.5,ray,1);
-        assertCountIntersectionsEquals(camera1,cylinder,2);
+        ray = new Ray(new Point(0, 0.5, -4), new Vector(0, -1, 0));
+        cylinder = new Cylinder(0.5, ray, 1);
+
+        assertCountIntersectionsEquals(camera1, cylinder, 2);
 
     }
 

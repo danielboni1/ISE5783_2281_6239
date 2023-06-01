@@ -122,5 +122,20 @@ public class Vector extends Point {
     public Vector scale(double num) {
         return new Vector(xyz.d1 * num, xyz.d2 * num, xyz.d3 * num);
     }
+    public Vector turn(double angle, Vector ortho){
+        ortho = ortho.changeLength(this.length());
+        double ortho_scaler = Math.sin(angle);
+        double this_scaler = Math.cos(angle);
+        if (Util.isZero(ortho_scaler)){
+            return this.scale(this_scaler).changeLength(this.length());
+        }else if(Util.isZero(this_scaler)){
+            return ortho.scale(ortho_scaler).changeLength(this.length());
+        }
+        return ortho.scale(Math.sin(angle)).add(this.scale(Math.cos(angle))).changeLength(this.length());
+    }
+    private Vector changeLength(double newLength)
+    {
+        return this.normalize().scale(newLength);
+    }
 
 }
