@@ -5,6 +5,7 @@ package renderer;
 
 import static java.awt.Color.*;
 
+import geometries.Cylinder;
 import geometries.Polygon;
 import lighting.DirectionalLight;
 import lighting.PointLight;
@@ -81,7 +82,7 @@ public class ReflectionRefractionTests {
          .writeToImage();
    }
 
-   /** Produce a picture of a two triangles lighted by a spot light with a
+   /** Produce a picture of two triangles lighted by a spot light with a
     * partially
     * transparent Sphere producing partial shadow */
    @Test
@@ -109,9 +110,13 @@ public class ReflectionRefractionTests {
          .writeToImage();
    }
    @Test
-
    public void allefectTestBounos() {
-      Camera camera = new Camera(new Point(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)) .setVPSize(200, 200).setVPDistance(1000);
+      Camera camera = new Camera(new Point(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0))
+              .setVPSize(200, 200)
+              .moveTo(10)
+              .turnUp(8.1)
+              .moveUp(-160)
+              .setVPDistance(1000);
       scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15)).background.add(new Color(white));
 
       scene.geometries.add( //
@@ -131,8 +136,8 @@ public class ReflectionRefractionTests {
                       .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60))
                       .setEmission(new Color(java.awt.Color.darkGray)),
               new Sphere( 20, new Point(-40, -65, -30))
-                      .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60))
-                      .setEmission(new Color(java.awt.Color.darkGray)),
+                      .setEmission(new Color(BLUE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(120).setKt(0.3)),
 
               new Polygon(new Point(25, 110, 115), new Point(35, 110, 115), new Point(35, 50, 115), new Point(25, 50, 115))
                       .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60))
@@ -155,12 +160,18 @@ public class ReflectionRefractionTests {
                       .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60))
               , new Triangle(new Point(-17, -15, 101), new Point(-17, -19, 99), new Point(-12, -17, 100))
                       .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60))
-                      .setEmission(new Color(54, 40, 30))
+                      .setEmission(new Color(54, 40, 30)),
+              new Cylinder(10, new Ray(new Point(-25,-40,-30), new Vector(0,1,0)), 50).setEmission(new Color(BLUE)) //
+                      .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKt(0.5)),
+              new Cylinder(6, new Ray(new Point(-25,-40,-30), new Vector(0,1,0)), 30).setEmission(new Color(red)) //
+                      .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(100))
 
       );
 
 
       scene.lights.add(new SpotLight(new Color(yellow), new Point(60, 50, 0), new Vector(0, 0, -1)) //
+              .setKl(4E-5).setKq(2E-7));
+      scene.lights.add(new PointLight(new Color(pink),new Point(0, 50, 0)) //
               .setKl(4E-5).setKq(2E-7));
 
 
