@@ -1,15 +1,9 @@
 package jsonConverting;
 
 import com.google.gson.Gson;
-import geometries.Geometries;
-import geometries.Plane;
-import geometries.Sphere;
-import geometries.Triangle;
+import geometries.*;
 import lighting.AmbientLight;
-import primitives.Color;
-import primitives.Double3;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
 import renderer.ImageWriter;
 import scene.Scene;
 
@@ -119,9 +113,7 @@ public class Convert {
                     Point p1 = parseStringToPoint(triangle.p1);
                     Point p2 = parseStringToPoint(triangle.p2);
 
-                    geometries.add(
-                            new Triangle(p0, p1, p2)
-                    );
+                    geometries.add(new Triangle(p0, p1, p2));
                 }
             }
 
@@ -132,9 +124,7 @@ public class Convert {
                     Point center = parseStringToPoint(sphere.center);
                     double radius = Double.parseDouble(sphere.radius);
 
-                    geometries.add(
-                            new Sphere(radius, center)
-                    );
+                    geometries.add(new Sphere(radius, center));
                 }
             }
 
@@ -148,6 +138,25 @@ public class Convert {
 
                     geometries.add(
                             new Plane(p0, normal)
+                    );
+                }
+            }
+            if (geometriesData.cylinders != null) {
+                // Cylinder parse
+                for (jsonConverting.HelperCylinder cylinder : geometriesData.cylinders) {
+                    // Getting axis ray, height and radius
+                    double radius = Double.parseDouble(cylinder.radius);
+                    double height = Double.parseDouble(cylinder.height);
+
+                    Point p0 = parseStringToPoint(cylinder.axisRay.p0);
+                    Point dir = parseStringToPoint(cylinder.axisRay.dir);
+
+
+                    geometries.add(
+                            new Cylinder(
+                                    radius,
+                                    new Ray(p0, new Vector(dir.getX(),dir.getY(),dir.getZ())),
+                                    height)
                     );
                 }
             }

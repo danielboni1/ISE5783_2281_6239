@@ -1,3 +1,7 @@
+/**
+ * The SpotLight class represents a spotlight source in a scene.
+ * It extends the PointLight class.
+ */
 package lighting;
 
 import primitives.Color;
@@ -6,46 +10,59 @@ import primitives.Vector;
 
 import static primitives.Util.isZero;
 
-/**
- * The SpotLight class represents a spot light source in a scene.
- * It extends the PointLight class.
- */
 public class SpotLight extends PointLight {
 
-     private Vector direction;
-     private double NarrowBeam =1;
+    private Vector direction;
+    private double narrowBeam = 1;
 
-     /**
-      * Constructs a SpotLight object with the given intensity, position, and direction.
-      *
-      * @param intensity  the intensity of the light as a Color object.
-      * @param position   the position of the light as a Point object.
-      * @param direction  the direction of the light as a Vector object.
-      */
-     public SpotLight(Color intensity, Point position, Vector direction) {
-          super(intensity, position);
-          this.direction = direction.normalize();
-     }
+    /**
+     * Constructs a SpotLight object with the given intensity, position, and direction.
+     *
+     * @param intensity the intensity of the light as a Color object.
+     * @param position  the position of the light as a Point object.
+     * @param direction the direction of the light as a Vector object.
+     */
+    public SpotLight(Color intensity, Point position, Vector direction) {
+        super(intensity, position);
+        this.direction = direction.normalize();
+    }
 
-     @Override
-     public Color getIntensity(Point point) {
-          Color Ic = super.getIntensity(point);
-          double projection = getL(point).dotProduct(direction);
+    @Override
+    public Color getIntensity(Point point) {
+        // Compute the intensity of the point light at the given point
+        Color Ic = super.getIntensity(point);
 
-          if (isZero(projection)) {
-               return Color.BLACK;
-          }
+        // Compute the projection of the vector from the light position
+        // to the point on the direction of the spotlight
+        double projection = getL(point).dotProduct(direction);
 
-          double factor = Math.max(0, projection);
-          if (NarrowBeam!=1)
-          {
-               factor = Math.pow(factor, NarrowBeam);
-          }
-          return Ic.scale(factor);
-     }
+        // If the projection is zero or negative,
+        // the point is outside the spotlight's cone, so the intensity is zero
+        if (isZero(projection)) {
+            return Color.BLACK;
+        }
 
-     public SpotLight setNarrowBeam(double narrowBeam) {
-          NarrowBeam = narrowBeam;
-          return this;
-     }
+        // Compute the intensity factor based on the projection
+        double factor = Math.max(0, projection);
+
+        // Apply the narrow beam factor, if specified
+        if (narrowBeam != 1) {
+            factor = Math.pow(factor, narrowBeam);
+        }
+
+        // Scale the intensity by the computed factor and return the result
+        return Ic.scale(factor);
+    }
+
+    /**
+     * Sets the narrow beam factor for the spotlight.
+     * The narrow beam factor controls the intensity falloff with angle.
+     *
+     * @param narrowBeam the narrow beam factor.
+     * @return the SpotLight object with the updated narrow beam factor.
+     */
+    public SpotLight setNarrowBeam(double narrowBeam) {
+        this.narrowBeam = narrowBeam;
+        return this;
+    }
 }

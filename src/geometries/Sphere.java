@@ -1,7 +1,3 @@
-/**
- * The Sphere class represents a sphere shape in a three-dimensional space.
- * It extends the RadialGeometry abstract class and provides methods for getting the sphere's center and radius.
- */
 package geometries;
 
 import primitives.Point;
@@ -13,6 +9,10 @@ import java.util.List;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
+/**
+ * The Sphere class represents a sphere shape in a three-dimensional space.
+ * It extends the RadialGeometry abstract class and provides methods for getting the sphere's center and radius.
+ */
 public class Sphere extends RadialGeometry {
     /**
      * The center point of sphere.
@@ -31,7 +31,7 @@ public class Sphere extends RadialGeometry {
     }
 
     /**
-     * Returns the center point of the sphere.
+     * Getter.
      *
      * @return the center point of the sphere.
      */
@@ -40,7 +40,7 @@ public class Sphere extends RadialGeometry {
     }
 
     /**
-     * Returns the radius length of the sphere.
+     * Getter.
      *
      * @return the radius length of the sphere.
      */
@@ -52,7 +52,7 @@ public class Sphere extends RadialGeometry {
     public Vector getNormal(primitives.Point point) {
         return point.subtract(center).normalize();
     }
-    // This function takes a Ray object as input and returns a list of intersection points with the sphere
+
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance)
     {

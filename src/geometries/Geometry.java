@@ -1,16 +1,19 @@
 
 package geometries;
 
-import primitives.*;
+import primitives.Color;
+import primitives.Material;
+import primitives.Point;
+import primitives.Vector;
 
-import java.util.List;
 /**
  * The Geometry interface represents a geometric shape in a three-dimensional space.
  * It provides methods for getting the normal vector of the shape at a specific point.
- * */
-public abstract class Geometry extends Intersectable{
+ */
+public abstract class Geometry extends Intersectable {
     protected Color emission = Color.BLACK;
-    private Material material =new Material();
+    private Material material = new Material();
+    /**************************** Getters *********************************************/
 
     /**
      * Returns the normal vector of the shape at the specified point.
@@ -20,7 +23,6 @@ public abstract class Geometry extends Intersectable{
      */
     public abstract Vector getNormal(Point point);
 
-
     /**
      * Getter.
      *
@@ -29,6 +31,17 @@ public abstract class Geometry extends Intersectable{
     public Color getEmission() {
         return emission;
     }
+
+    /**
+     * Getter.
+     *
+     * @return the Material of the geometry.
+     */
+    public Material getMaterial() {
+        return material;
+    }
+
+    /****************************** Setters *********************************************/
 
     /**
      * Setter.
@@ -41,10 +54,12 @@ public abstract class Geometry extends Intersectable{
         return this;
     }
 
-    public Material getMaterial() {
-        return material;
-    }
-
+    /**
+     * Setter.
+     *
+     * @param material- the material to set.
+     * @return the geometry object with the updated Material.
+     */
     public Geometry setMaterial(Material material) {
         this.material = material;
         return this;

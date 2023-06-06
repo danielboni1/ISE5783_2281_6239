@@ -26,6 +26,12 @@ public interface LightSource {
      */
     public Vector getL(Point p);
 
+    /**
+     * Getter.
+     *
+     * @param point- the intersection point
+     * @return the distance between the light source and the geometry
+     */
     double getDistance(Point point);
 
 }

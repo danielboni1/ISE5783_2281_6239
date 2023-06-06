@@ -104,4 +104,23 @@ public class RenderTests {
         camera.printGrid(100, new Color(YELLOW));
         camera.writeToImage();
     }
+    @Test
+    public void experimentJson() {
+
+        // enter json file name and parse from
+        // json file into scene object
+
+        Scene scene = jsonConverting.Convert
+                .FromJsonToScene(System.getProperty("user.dir") + "\\JsonFiles\\experiment.json");
+
+
+        Camera camera = new Camera(new Point(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0))
+                .setVPDistance(100)
+                .setVPSize(500, 500)
+                .setImageWriter(new ImageWriter("experimentImage", 1000, 1000))
+                .setRayTracer(new RayTracerBasic(scene));
+        camera.renderImage();
+        camera.printGrid(100, new Color(YELLOW));
+        camera.writeToImage();
+    }
 }

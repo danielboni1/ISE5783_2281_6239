@@ -99,8 +99,10 @@ class HelperAmbientLight {
  */
 class HelperGeometryData {
     HelperTriangle[] triangles;
+    //HelperPolygon[] polygons;
     HelperSphere[] spheres;
     HelperPlane[] planes;
+    HelperCylinder[] cylinders;
 }
 
 /**
@@ -126,4 +128,21 @@ class HelperSphere {
 class HelperPlane {
     String normal;
     String p0;
+}
+
+/**
+ * Represents the JSON format of a Cylinder with its normal and a point on the plane.
+ */
+class HelperCylinder{
+    String radius;
+    String height;
+    HelperRay axisRay;
+}
+
+/**
+ * Helper class that represents a ray in cylinder.
+ */
+class HelperRay{
+    String p0;
+    String dir;
 }

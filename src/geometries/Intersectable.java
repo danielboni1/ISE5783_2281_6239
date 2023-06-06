@@ -11,8 +11,10 @@ import java.util.Objects;
  * It provides methods for computing intersections between the shape and a given ray.
  */
 public abstract class Intersectable {
+
     /**
      * Computes intersections between the shape and a given ray.
+     * (for the tests from the beginning...)
      *
      * @param ray the ray to intersect with the shape.
      * @return a list of intersection points, or null if there are no intersections.
@@ -32,6 +34,14 @@ public abstract class Intersectable {
     public final List<GeoPoint> findGeoIntersections(Ray ray) {
         return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
     }
+
+    /**
+     * Computes intersections between the shape and a given ray, up to a specified maximum distance.
+     *
+     * @param ray         the ray to intersect with the shape.
+     * @param maxDistance the maximum allowed distance for an intersection point to be considered.
+     * @return a list of GeoPoints representing the intersections, or null if there are no intersections.
+     */
     public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
         return findGeoIntersectionsHelper(ray, maxDistance);
     }
@@ -40,7 +50,8 @@ public abstract class Intersectable {
      * Helper method for computing intersections between the shape and a given ray.
      * Subclasses must implement this method to provide the specific intersection logic.
      *
-     * @param ray the ray to intersect with the shape.
+     * @param ray         the ray to intersect with the shape.
+     * @param maxDistance the maximum allowed distance for an intersection point to be considered.
      * @return a list of GeoPoints representing the intersections, or null if there are no intersections.
      */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);

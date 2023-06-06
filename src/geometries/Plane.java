@@ -1,7 +1,4 @@
-/**
- * The Plane class represents a plane shape in a three-dimensional space.
- * It implements the Geometry interface and provides methods for getting the plane's normal vector.
- */
+
 package geometries;
 
 import primitives.Point;
@@ -14,10 +11,14 @@ import java.util.List;
 import static primitives.Double3.ZERO;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
-
+/**
+ * The Plane class represents a plane shape in a three-dimensional space.
+ * It implements the Geometry interface and provides methods for getting the plane's normal vector.
+ */
 public class Plane extends Geometry {
-    Point p0;
-    Vector normal;
+
+    private Point p0;
+    private Vector normal;
 
     /**
      * Constructs a new Plane object with the specified point and normal vector.
@@ -36,7 +37,8 @@ public class Plane extends Geometry {
 
     /**
      * Constructs a new Plane object with the specified three points.
-     * The normal vector of the plane is calculated as the cross product of two vectors from the three points.
+     * The normal vector of the plane is calculated as the cross product
+     * of two vectors from the three points.
      *
      * @param p0 the first point on the plane.
      * @param p1 the second point on the plane.
@@ -47,13 +49,13 @@ public class Plane extends Geometry {
         Vector v1 = p1.subtract(p0);
         Vector v2 = p2.subtract(p0);
         Vector N = v1.crossProduct(v2);
-        if (N.lengthSquared() == 0)//todo: check if the vectors are on the same line
+        if (N.lengthSquared() == 0)
             throw new IllegalArgumentException("The points are on the same line");
         this.normal = N.normalize();
     }
 
     /**
-     * Returns the point on the plane.
+     * Getter.
      *
      * @return the point on the plane.
      */
@@ -62,7 +64,7 @@ public class Plane extends Geometry {
     }
 
     /**
-     * Returns the normal vector of the plane.
+     * Getter.
      *
      * @return the normal vector of the plane.
      */
@@ -70,11 +72,11 @@ public class Plane extends Geometry {
         return normal;
     }
 
+
     @Override
     public Vector getNormal(Point point) {
         return normal;
     }
-
 
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
@@ -99,7 +101,6 @@ public class Plane extends Geometry {
         // calculate the cosine of the angle between the ray direction and the plane normal
         double nv = alignZero(n.dotProduct(v));
 
-
         // if the ray is parallel to the plane, there are no intersections
         if (isZero(nv)) {
             return null;
@@ -108,7 +109,8 @@ public class Plane extends Geometry {
         // calculate the distance from the ray's start point to the intersection point
         double t = alignZero(nP0Q0 / nv);
 
-        // if the intersection point is behind the ray's start point, there are no intersections
+        // if the intersection point is behind the ray's start point,
+        // there are no intersections
         if (t <= 0) {
             return null;
         }
@@ -116,12 +118,11 @@ public class Plane extends Geometry {
         // calculate the intersection point
         Point point = ray.getPoint(t);
 
-        if (alignZero(t - maxDistance)<=0)
-        {
-            GeoPoint geoP = new GeoPoint(this,point);
+        if (alignZero(t - maxDistance) <= 0) {
+            GeoPoint geoP = new GeoPoint(this, point);
             return List.of(geoP);
         }
+
         return null;
     }
-
 }

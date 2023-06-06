@@ -32,7 +32,7 @@ public class Tube extends RadialGeometry {
     }
 
     /**
-     * Returns the axis ray of the tube.
+     * Getter.
      *
      * @return the axis ray of the tube.
      */
