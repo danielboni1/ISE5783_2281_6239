@@ -151,7 +151,7 @@ public class Camera {
     /**
      * Setter for the distance.
      *
-     * @param distance- the distance from the center of the camera
+     * @param distance the distance from the center of the camera.
      * @return the Camera with the distance.
      */
     public Camera setVPDistance(double distance) {
@@ -159,11 +159,10 @@ public class Camera {
         return this;
     }
 
-
     /**
      * Setter.
      *
-     * @param imageWriter- the image writer with the inserted properties.
+     * @param imageWriter the image writer with the inserted properties.
      * @return the Camera object with the updated ImageWriter.
      */
     public Camera setImageWriter(ImageWriter imageWriter) {
@@ -174,7 +173,7 @@ public class Camera {
     /**
      * Setter.
      *
-     * @param rayTracerBase- the RayTracerBase to be set.
+     * @param rayTracerBase the RayTracerBase to be set.
      * @return the Camera object with the updated RayTracerBase.
      */
     public Camera setRayTracer(RayTracerBase rayTracerBase) {
@@ -183,21 +182,20 @@ public class Camera {
     }
 
     /**
-     * This method gets properties of a pixel in the
-     * view plane and returns the ray that comes
-     * out of the camera to that pixel
+     * This method gets properties of a pixel in the view plane and returns the ray that comes
+     * out of the camera to that pixel.
      *
-     * @param nX  - the amount of the rows on the view plane.
-     * @param nY- the amount of the columns on the view plane.
-     * @param j   - index of x.
-     * @param i   - index of y.
+     * @param nX the amount of the rows on the view plane.
+     * @param nY the amount of the columns on the view plane.
+     * @param j  the index of x.
+     * @param i  the index of y.
      * @return the ray that intersects the pixel.
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
         //The starting point
         Point center = p0.add(vTo.scale(distance));
 
-        //The length of each pixel(each row/column)
+        //The length of each pixel (each row/column)
         double Rx = width / nX;
         double Ry = height / nY;
 
@@ -207,7 +205,7 @@ public class Camera {
         //center point in order to get to the requested pixel.
         //(locating the point at the pixel).
 
-        //offsets for movePoint
+        //Offsets for movedPoint
         double Xj = (j - (nX - 1) / 2d) * Rx;
         double Yi = ((nY - 1) / 2d - i) * Ry;
 
@@ -219,7 +217,7 @@ public class Camera {
             movedPoint = movedPoint.add(vUp.scale(Yi));
         }
 
-        //The vector of the requested ray is movedPoint-p0
+        //The vector of the requested ray is movedPoint - p0
         Vector CameraToPixel = movedPoint.subtract(p0);
 
         return new Ray(p0, CameraToPixel);
@@ -228,6 +226,9 @@ public class Camera {
     /**
      * Renders the image by casting rays from the camera to each pixel on the view plane.
      * Writes the computed pixel colors to the image writer.
+     *
+     * @return the Camera object.
+     * @throws MissingResourceException if the image writer or ray tracer is not set.
      */
     public Camera renderImage() {
         try {
@@ -243,7 +244,6 @@ public class Camera {
                 for (int j = 0; j < NX; j++) {
                     Color pixelColor = castRay(NX, NY, i, j);
                     imageWriter.writePixel(j, i, pixelColor);
-
                 }
             }
         } catch (MissingResourceException ex) {
@@ -261,7 +261,6 @@ public class Camera {
      * @param j  the index of the pixel's column.
      * @return the color of the intersected object.
      */
-
     private Color castRay(int nX, int nY, int i, int j) {
         Ray ray = constructRay(nX, nY, j, i);
         Color pixelColor = rayTracerBase.traceRay(ray);
@@ -276,8 +275,9 @@ public class Camera {
      * @throws MissingResourceException if the image writer is not set.
      */
     public void printGrid(int interval, Color color) {
-        if (imageWriter == null)
+        if (imageWriter == null) {
             throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
+        }
         for (int i = 0; i < imageWriter.getNy(); i++) {
             for (int j = 0; j < imageWriter.getNx(); j++) {
                 if (i % interval == 0 || j % interval == 0) {
@@ -290,18 +290,22 @@ public class Camera {
     /**
      * Writes the image to the output file using the ImageWriter.
      *
+     * @return the Camera object.
      * @throws MissingResourceException if the image writer is not set.
      */
     public Camera writeToImage() {
-        if (imageWriter == null)
+        if (imageWriter == null) {
             throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
+        }
         imageWriter.writeToImage();
         return this;
     }
 
-
     /**
-     * turns the camera by a given angle
+     * Turns the camera by a given angle.
+     *
+     * @param angle the angle to rotate the camera by.
+     * @return the Camera object.
      */
     public Camera pivot(double angle) {
         angle = Math.toRadians(angle);
@@ -310,6 +314,12 @@ public class Camera {
         return this;
     }
 
+    /**
+     * Turns the camera to the right by a given angle.
+     *
+     * @param angle the angle to rotate the camera to the right by.
+     * @return the Camera object.
+     */
     public Camera turnRight(double angle) {
         angle = Math.toRadians(angle);
         vTo = vTo.turn(angle, vRight);
@@ -317,6 +327,12 @@ public class Camera {
         return this;
     }
 
+    /**
+     * Turns the camera up by a given angle.
+     *
+     * @param angle the angle to rotate the camera up by.
+     * @return the Camera object.
+     */
     public Camera turnUp(double angle) {
         angle = Math.toRadians(angle);
         vTo = vTo.turn(angle, vUp);
@@ -324,19 +340,36 @@ public class Camera {
         return this;
     }
 
+    /**
+     * Moves the camera up by a given distance.
+     *
+     * @param distance the distance to move the camera up by.
+     * @return the Camera object.
+     */
     public Camera moveUp(double distance) {
         p0 = p0.add(vUp.scale(distance));
         return this;
     }
 
-    public Camera moveTo(double distance) {
-        p0 = p0.add(vTo.scale(distance));
-        return this;
-    }
-
+    /**
+     * Moves the camera to the right by a given distance.
+     *
+     * @param distance the distance to move the camera to the right by.
+     * @return the Camera object.
+     */
     public Camera moveRight(double distance) {
         p0 = p0.add(vRight.scale(distance));
         return this;
     }
 
+    /**
+     * Moves the camera forward by a given distance.
+     *
+     * @param distance the distance to move the camera forward by.
+     * @return the Camera object.
+     */
+    public Camera moveTo(double distance) {
+        p0 = p0.add(vTo.scale(distance));
+        return this;
+    }
 }

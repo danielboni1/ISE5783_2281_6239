@@ -244,10 +244,10 @@ public class LightsTests {
                 .moveUp(250)
                 .moveRight(50)
                 .turnUp(-22.5)
-                .setImageWriter(imageWriter) //
-                .setRayTracer(new RayTracerBasic(scene1)) //
-                .renderImage() //
-                .writeToImage(); //
+                .setImageWriter(imageWriter)
+                .setRayTracer(new RayTracerBasic(scene1))
+                .renderImage()
+                .writeToImage();
     }
 }
 

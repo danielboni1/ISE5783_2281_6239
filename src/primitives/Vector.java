@@ -104,38 +104,54 @@ public class Vector extends Point {
     }
 
     /**
-     * Adding a vector to this vector.
+     * Adds a vector to this vector.
      *
-     * @param vector the vector that added.
-     * @return the result (a new vector) of the adding.
+     * @param vector the vector to be added.
+     * @return the result (a new vector) of the addition.
      */
     public Vector add(Vector vector) {
         return new Vector(xyz.add(vector.xyz));
     }
 
     /**
-     * Calculates the product of this vector with some number.
+     * Scales this vector by a specified number.
      *
-     * @param num the number to calculate the cross product with.
-     * @return the vector that created.
+     * @param num the number to scale the vector by.
+     * @return the scaled vector.
      */
     public Vector scale(double num) {
         return new Vector(xyz.d1 * num, xyz.d2 * num, xyz.d3 * num);
     }
-    public Vector turn(double angle, Vector ortho){
+
+    /**
+     * Rotates this vector by a specified angle around the given orthogonal vector.
+     *
+     * @param angle the angle to rotate the vector by.
+     * @param ortho the orthogonal vector for rotation.
+     * @return the rotated vector.
+     */
+    public Vector turn(double angle, Vector ortho) {
         ortho = ortho.changeLength(this.length());
-        double ortho_scaler = Math.sin(angle);
-        double this_scaler = Math.cos(angle);
-        if (Util.isZero(ortho_scaler)){
-            return this.scale(this_scaler).changeLength(this.length());
-        }else if(Util.isZero(this_scaler)){
-            return ortho.scale(ortho_scaler).changeLength(this.length());
+        double scaleOrtho = Math.sin(angle);
+        double scaleThis = Math.cos(angle);
+        //if the sin(a) doesn't chang nothing scale only the cos(a)
+        if (Util.isZero(scaleOrtho)) {
+            return this.scale(scaleThis).changeLength(this.length());
+        //if the cos(a) doesn't chang nothing scale only the sin(a)
+        } else if (Util.isZero(scaleThis)) {
+            return ortho.scale(scaleOrtho).changeLength(this.length());
         }
-        return ortho.scale(Math.sin(angle)).add(this.scale(Math.cos(angle))).changeLength(this.length());
-    }
-    private Vector changeLength(double newLength)
-    {
-        return this.normalize().scale(newLength);
+        //if both are not zero return the orthoVector(sin(a)) + thisVector(cos(a))
+        return ortho.scale(scaleOrtho).add(this.scale(scaleThis)).changeLength(this.length());
     }
 
+    /**
+     * Changing the length of a given vector by a specified number.
+     *
+     * @param newLength- the new length of the vector.
+     * @return the changed vector.
+     */
+    private Vector changeLength(double newLength) {
+        return this.normalize().scale(newLength);
+    }
 }

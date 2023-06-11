@@ -2,7 +2,9 @@
  * The Ray class represents a ray in 3D space.
  */
 package primitives;
+
 import geometries.Intersectable.GeoPoint;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -35,14 +37,22 @@ public class Ray {
         this.dir = dir.normalize();
     }
 
+    /**
+     * Constructs a Ray object with a starting point, a normal vector, and a direction vector.
+     *
+     * @param p   The starting point of the ray.
+     * @param n   The normal vector.
+     * @param dir The direction of the ray.
+     */
     public Ray(Point p, Vector n, Vector dir) {
         this.dir = dir.normalize();
         double nv = n.dotProduct(this.dir);
-        Vector delta  =n.scale(DELTA);
+        Vector delta = n.scale(DELTA);
         if (nv < 0)
             delta = delta.scale(-1);
         this.p0 = p.add(delta);
     }
+
     /**
      * Returns the starting point of the ray.
      *
@@ -82,7 +92,7 @@ public class Ray {
     }
 
     /**
-     * Calculating a point on a ray.
+     * Calculates a point on the ray at a given length from p0.
      *
      * @param t the length from p0
      * @return the point on the ray
@@ -95,9 +105,9 @@ public class Ray {
     }
 
     /**
-     * The function finds the closest point from the camera.
+     * Finds the closest point from the camera among the given list of points.
      *
-     * @param points- the list of the points that the ray intersect.
+     * @param points the list of points that the ray intersects.
      * @return the closest point from the camera.
      */
     public Point findClosestPoint(List<Point> points) {
@@ -107,6 +117,13 @@ public class Ray {
                 .toList())
                 .point;
     }
+
+    /**
+     * Finds the closest GeoPoint from the camera among the given list of GeoPoints.
+     *
+     * @param geoPoints the list of GeoPoints that the ray intersects.
+     * @return the closest GeoPoint from the camera.
+     */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints) {
         if (geoPoints == null) {
             return null;
@@ -119,5 +136,4 @@ public class Ray {
         }
         return smallestDistance;
     }
-
 }

@@ -102,6 +102,10 @@ public class ReflectionRefractionTests {
          .renderImage() //
          .writeToImage();
    }
+
+   /**
+    * bonus 7 version 1 (not final)
+    */
    @Test
    public void allefectTestBounos() {
       Camera camera = new Camera(new Point(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0))
@@ -175,6 +179,10 @@ public class ReflectionRefractionTests {
               .writeToImage();
 
    }
+
+   /**
+    * same image without camera transformation
+    */
    @Test
    public void allefectTestBounosNotMoved() {
       Camera camera = new Camera(new Point(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0))
@@ -245,6 +253,15 @@ public class ReflectionRefractionTests {
               .writeToImage();
 
    }
+
+   /**
+    * image for the bonus of stage 7:
+    *
+    * a couple of geometries on a mirror and in front of another mirror
+    * with camera transformation (the camera's going up and looking down).
+    *
+    * shapes: 5 pillars, 1 pyramid, 2 spheres, 1 mirror floor and 1 mirror wall.
+    */
    @Test
    public void realBonus(){
       Camera camera = new Camera(

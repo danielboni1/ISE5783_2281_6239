@@ -6,11 +6,38 @@ package primitives;
  * and the shininess factor (nShininess) of the material.
  */
 public class Material {
+    /**
+     * The diffuse reflection coefficient:
+     * It represents the amount of light that is diffusely
+     * reflected by the surface of an object.
+     * This coefficient determines the color and intensity of the diffuse reflection.
+     */
     Double3 Kd = Double3.ZERO;
+    /**
+     * The specular reflection coefficient:
+     * It represents the amount of light that is specularly reflected
+     * by the surface of an object.
+     * This coefficient determines the color and intensity of the specular
+     * reflection, which is responsible for highlights and shiny effects.
+     */
     Double3 Ks = Double3.ZERO;
-
+    /**
+     * The transmission coefficient (refraction):
+     * It represents the amount of light that is transmitted
+     * through a transparent or translucent object.
+     * This coefficient determines the color and intensity of the transmitted light.
+     */
     Double3 Kt = Double3.ZERO;
+    /**
+     * Reflection coefficient:
+     * It represents the amount of light that is reflected by a surface.
+     * This coefficient determines the color and intensity of the reflected light.
+     */
     Double3 Kr = Double3.ZERO;
+
+    /**
+     * The shininess factor (nShininess) of the material.
+     */
     int nShininess = 0;
 
 
@@ -70,7 +97,7 @@ public class Material {
     }
 
     /**
-     * Returns the diffuse reflection coefficient (Kd) of the material.
+     * Getter.
      *
      * @return the diffuse reflection coefficient.
      */
@@ -79,7 +106,7 @@ public class Material {
     }
 
     /**
-     * Returns the specular reflection coefficient (Ks) of the material.
+     * Getter.
      *
      * @return the specular reflection coefficient.
      */
@@ -88,7 +115,7 @@ public class Material {
     }
 
     /**
-     * Returns the shininess factor (nShininess) of the material.
+     * Getter.
      *
      * @return the shininess factor.
      */
@@ -96,28 +123,63 @@ public class Material {
         return nShininess;
     }
 
+    /**
+     * Getter.
+     *
+     * @return the transparency coefficient.
+     */
     public Double3 getKt() {
         return Kt;
     }
 
+    /**
+     * Getter.
+     *
+     * @return the reflection coefficient.
+     */
     public Double3 getKr() {
         return Kr;
     }
 
+    /**
+     * Sets the transparency coefficient (Kt) of the material.
+     *
+     * @param kt the transparency coefficient.
+     * @return the Material with the updated transparency coefficient.
+     */
     public Material setKt(Double3 kt) {
         Kt = kt;
         return this;
     }
 
+    /**
+     * Sets the reflection coefficient (Kr) of the material.
+     *
+     * @param kr the reflection coefficient.
+     * @return the Material with the updated reflection coefficient.
+     */
     public Material setKr(Double3 kr) {
         Kr = kr;
         return this;
     }
+
+    /**
+     * Sets the transparency coefficient (Kt) of the material.
+     *
+     * @param kt the transparency coefficient.
+     * @return the Material with the updated transparency coefficient.
+     */
     public Material setKt(double kt) {
         this.Kt = new Double3(kt);
         return this;
     }
 
+    /**
+     * Sets the reflection coefficient (Kr) of the material.
+     *
+     * @param kr the reflection coefficient.
+     * @return the Material with the updated reflection coefficient.
+     */
     public Material setKr(double kr) {
         this.Kr = new Double3(kr);
         return this;
