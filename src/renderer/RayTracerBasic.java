@@ -14,6 +14,7 @@ import static primitives.Util.isZero;
 /**
  * The RayTracerBasic class is responsible for performing basic ray tracing operations.
  */
+
 public class RayTracerBasic extends RayTracerBase {
 
     private static final int MAX_NUMBER_OF_SHADOW_RAYS = 1;
@@ -104,12 +105,18 @@ public class RayTracerBasic extends RayTracerBase {
                 if (nl * nv > 0) { // sign(nl) == sing(nv)
                     Double3 ktr = transparency(lightSource, l,n,geo);
                     if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
-                        Color iL = lightSource.getIntensity(geo.point).scale(ktr);
-                        rayBeam = rayBeam.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material,nl, n, l , v)));
+                        // Color iL = lightSource.getIntensity(geo.point).scale(ktr);
+                        //rayBeam = rayBeam.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material,nl, n, l , v)));
+                        Double3 diff = calcDiffusive(material, nl);
+                        Double3 spec = calcSpecular(material, nl, n, l, v);
+                        Color Il = lightSource.getIntensity(geo.point).scale(diff.add(spec));
+                        rayBeam = rayBeam.add(Il.scale(ktr));
                     }
                 }
             }
-            color = color.add(rayBeam.reduce(vectors.size()));
+            rayBeam = rayBeam.reduce(vectors.size());
+            color = color.add(rayBeam);
+            // color = color.add(rayBeam.reduce(vectors.size()));
 
         }
         return color;
@@ -290,4 +297,3 @@ public class RayTracerBasic extends RayTracerBase {
         return intersections == null ? null : ray.findClosestGeoPoint(intersections);
     }
 }
-

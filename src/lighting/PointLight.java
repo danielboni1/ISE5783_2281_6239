@@ -1,11 +1,13 @@
 package lighting;
 
+import geometries.Plane;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -98,8 +100,8 @@ public class PointLight extends Light implements LightSource {
     public List<Vector> getLightVectors(Point p) {
         List<Vector> vectors = new LinkedList();
         //grid of vectors around the light
-        for (double i = -SIZE; i < SIZE; i += SIZE / 10) {
-            for (double j = -SIZE; j < SIZE; j += SIZE / 10) {
+        for (double i = -SIZE; i < SIZE; i ++) {
+            for (double j = -SIZE; j < SIZE; j ++) {
                 if (i != 0 && j != 0) {
                     //create a point on the grid
                     Point point = position.add(new Vector(i, 0.1d, j));

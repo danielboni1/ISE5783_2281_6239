@@ -44,4 +44,5 @@ public interface LightSource {
      * @return list of vectors
      */
     public List<Vector> getLightVectors(Point p);//, int numOfPoints);
+
     }
