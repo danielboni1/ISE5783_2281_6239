@@ -17,7 +17,6 @@ import static primitives.Util.isZero;
 
 public class RayTracerBasic extends RayTracerBase {
 
-    private static final int MAX_NUMBER_OF_SHADOW_RAYS = 1;
     private static final double DELTA = 0.1;
     private static final int MAX_CALC_COLOR_LEVEL = 10;
     private static final double MIN_CALC_COLOR_K = 0.001;
@@ -73,7 +72,6 @@ public class RayTracerBasic extends RayTracerBase {
         }
         Material material = geo.geometry.getMaterial();
         color = color.add(calcLocalEffects(geo,ray,k));
-        //color = color.add(calcLocalEffects(geo, material, n, v, nv, k));
         return level == 1 ? color : color.add(calcGlobalEffects(geo, material, n, v, nv, level, k));
     }
 
@@ -105,8 +103,6 @@ public class RayTracerBasic extends RayTracerBase {
                 if (nl * nv > 0) { // sign(nl) == sing(nv)
                     Double3 ktr = transparency(lightSource, l,n,geo);
                     if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
-                        // Color iL = lightSource.getIntensity(geo.point).scale(ktr);
-                        //rayBeam = rayBeam.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material,nl, n, l , v)));
                         Double3 diff = calcDiffusive(material, nl);
                         Double3 spec = calcSpecular(material, nl, n, l, v);
                         Color Il = lightSource.getIntensity(geo.point).scale(diff.add(spec));
@@ -116,7 +112,6 @@ public class RayTracerBasic extends RayTracerBase {
             }
             rayBeam = rayBeam.reduce(vectors.size());
             color = color.add(rayBeam);
-            // color = color.add(rayBeam.reduce(vectors.size()));
 
         }
         return color;
@@ -210,11 +205,9 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private Ray constructReflectedRay(Point point, Vector v, Vector n) {
         double vn = v.dotProduct(n);
-
         if (vn == 0) {
             return null;
         }
-
         Vector r = v.subtract(n.scale(2 * vn));
         return new Ray(point, n, r);
     }
