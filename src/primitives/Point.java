@@ -3,6 +3,8 @@
  */
 package primitives;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class Point {
@@ -33,19 +35,31 @@ public class Point {
 
     /**
      * Getter
+     *
      * @return the first coordinate of the point
      */
-    public double getX(){return xyz.d1;}
+    public double getX() {
+        return xyz.d1;
+    }
+
     /**
      * Getter
+     *
      * @return the second coordinate of the point
      */
-    public double getY(){return xyz.d2;}
+    public double getY() {
+        return xyz.d2;
+    }
+
     /**
      * Getter
+     *
      * @return the third coordinate of the point
      */
-    public double getZ(){return xyz.d3;}
+    public double getZ() {
+        return xyz.d3;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,5 +120,37 @@ public class Point {
     public Vector subtract(Point point) {
         return new Vector(xyz.subtract(point.xyz));
     }
+
+    /**
+     * Helper method that generates list of points (on a circle) that we'll create a list of vectors from.
+     *
+     * @param u         - vector of the circle plane.
+     * @param v         - vector of the circle plane.
+     * @param numPoints - number of the point that will be created.
+     * @param center    - the center of the circle.
+     * @param radius    - the radius of the circle.
+     * @return - linked list of the points.
+     */
+    public static List<Point> getRandomPoints(Vector u, Vector v, int numPoints, Point center, double radius) {
+
+        //The list that will be  returned:
+        List<Point> points = new LinkedList<>();
+
+        // 2pai/n
+        double angleIncrement = 2 * Math.PI / numPoints;
+
+        for (int i = 0; i < numPoints; i++) {
+            double angle = i * angleIncrement;
+
+            double x = center.getX() + radius * (Math.cos(angle) * u.getX() + Math.sin(angle) * v.getX());
+            double y = center.getY() + radius * (Math.cos(angle) * u.getY() + Math.sin(angle) * v.getY());
+            double z = center.getZ() + radius * (Math.cos(angle) * u.getZ() + Math.sin(angle) * v.getZ());
+
+            points.add(new Point(x, y, z));
+        }
+
+        return points;
+    }
+
 
 }

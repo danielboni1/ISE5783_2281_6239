@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
  * The LightSource interface represents a light source in a scene.
  * It defines methods to retrieve the intensity and direction of the light at a given point.
@@ -33,5 +35,13 @@ public interface LightSource {
      * @return the distance between the light source and the geometry
      */
     double getDistance(Point point);
-
-}
+    /**
+     * Helper method that should be a getter for the directions of the rays
+     * of the beam that we want to calculate the average transparency from.
+     * (for soft shadow).
+     *
+     * @param p           of the geoPoint
+     * @return list of vectors
+     */
+    public List<Vector> getLightVectors(Point p);//, int numOfPoints);
+    }

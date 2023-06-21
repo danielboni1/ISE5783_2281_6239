@@ -154,4 +154,13 @@ public class Vector extends Point {
     private Vector changeLength(double newLength) {
         return this.normalize().scale(newLength);
     }
+
+    /**
+     * Getter (helper for minip1).
+     *
+     * @return the orthogonal vector.
+     */
+    public Vector getOrthogonal() {
+        return xyz.d1 == 0 ? new Vector(1,0,0) : new Vector(-xyz.d2, xyz.d1, 0);
+    }
 }

@@ -104,4 +104,5 @@ public class Color {
 
    @Override
    public String toString() { return "rgb:" + rgb; }
+
 }

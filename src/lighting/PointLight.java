@@ -4,11 +4,19 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+import java.util.LinkedList;
+import java.util.List;
+
+
 /**
  * The PointLight class represents a point light source in a scene.
  * It extends the Light class and implements the LightSource interface.
  */
 public class PointLight extends Light implements LightSource {
+    /**
+     * The size of the plane that I generate vectors from (for soft shadow).
+     */
+    public double SIZE = 5;
 
     private Point position;
     private double Kc = 1;
@@ -86,4 +94,36 @@ public class PointLight extends Light implements LightSource {
         return point.distance(position);
     }
 
+    @Override
+    public List<Vector> getLightVectors(Point p) {
+        List<Vector> vectors = new LinkedList();
+        //grid of vectors around the light
+        for (double i = -SIZE; i < SIZE; i += SIZE / 10) {
+            for (double j = -SIZE; j < SIZE; j += SIZE / 10) {
+                if (i != 0 && j != 0) {
+                    //create a point on the grid
+                    Point point = position.add(new Vector(i, 0.1d, j));
+                    if (point.equals(position)) {
+                        //if the point is the same as the light position,
+                        // add the vector from the point to the light
+                        vectors.add(p.subtract(point).normalize());
+                    } else {
+                        try {
+                            if (point.subtract(position).dotProduct(point.subtract(position))
+                                    <= SIZE * SIZE) {
+                                //if the point is in the radius of the light,
+                                // add the vector from the point to the light
+                                vectors.add(p.subtract(point).normalize());
+                            }
+                        } catch (Exception e) {
+                            vectors.add(p.subtract(point).normalize());
+                        }
+
+                    }
+                }
+            }
+        }
+        vectors.add(getL(p));
+        return vectors;
+    }
 }

@@ -44,7 +44,7 @@ public class Sphere extends RadialGeometry {
      *
      * @return the radius length of the sphere.
      */
-    public Double getRadios() {
+    public Double getRadius() {
         return radius;
     }
 
@@ -115,6 +115,14 @@ public class Sphere extends RadialGeometry {
         }
         // If the Ray does not intersect the sphere, return null
         return null;
+    }
+
+    /**
+     * checks if point is in sphere
+     * @param p the point
+     */
+    public Boolean isIn(Point p){
+        return center.distanceSquared(p) <= radius*radius;
     }
 
 }

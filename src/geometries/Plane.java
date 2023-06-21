@@ -125,4 +125,20 @@ public class Plane extends Geometry {
 
         return null;
     }
+    /**
+     * retruns two normalized orthogonal vectors in the plane
+     *
+     * @return
+     */
+    public List<Vector> getBaseVectors() {
+        Vector v1;
+        try {
+            v1 = normal.crossProduct(new Vector(1, 0, 0));
+        } catch (IllegalArgumentException e) {
+            v1 = normal.crossProduct(new Vector(0, 1, 0));
+        }
+        Vector v2 = normal.crossProduct(v1);
+        return List.of(v1.normalize(), v2.normalize());
+    }
+
 }

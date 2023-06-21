@@ -8,6 +8,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+import java.util.List;
+
 import static primitives.Util.isZero;
 
 public class SpotLight extends PointLight {
@@ -65,4 +67,5 @@ public class SpotLight extends PointLight {
         this.narrowBeam = narrowBeam;
         return this;
     }
+
 }
