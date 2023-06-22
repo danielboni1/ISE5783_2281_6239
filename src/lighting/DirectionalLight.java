@@ -41,7 +41,7 @@ public class DirectionalLight extends Light implements LightSource {
 
     @Override
     public List<Vector> getLightVectors(Point ignore){
-        return null;
+        return List.of(getL(ignore));
     }
 
 }
