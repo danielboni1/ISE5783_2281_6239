@@ -270,5 +270,49 @@ public class SoftShadowTest {
                 .renderImage()
                 .writeToImage();
     }
+    /**
+     * Test for initialising the points in SpotLight
+     */
+    @Test
+    void test() {
+        Scene scene = new Scene.SceneBuilder("TestScene").build();
+        Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0))//
+                .setVPSize(200, 200).setVPDistance(1000) //
+                .setRayTracer(new RayTracerBasic(scene));
+        Material roomMaterial = new Material().setKs(0.3).setKd(0.5);
+        Material ball = new Material().setKs(0.8).setKd(0.5);
+        scene.geometries.add(
+                //Room
+                //Right wall
+                new Polygon(new Point(100, 100, 0), new Point(100, -80, 0), new Point(40, -80, -250), new Point(40, 100, -250))
+                        .setEmission(new Color(200, 200, 100)),//.setMaterial(roomMaterial),
+                //Left wall
+                new Polygon(new Point(-100, 100, 0), new Point(-100, -80, 0), new Point(40, -80, -250), new Point(40, 100, -250))
+                        .setEmission(new Color(255, 153, 34)),//.setMaterial(roomMaterial),
+                //Ceiling
+                new Triangle(new Point(100, 100, 0), new Point(-100, 100, 0), new Point(40, 99, -250))
+                        .setEmission(new Color(0, 240, 0).scale(0.8)).setMaterial(roomMaterial),
+                //floor
+                new Triangle(new Point(40, -80, -250), new Point(185, -100, 0), new Point(-265, -100, 0))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),
+                //Lamp
+                new Sphere( 15,new Point(40, 100, -100)).setMaterial(new Material().setKt(1))
+                        .setEmission(new Color(GRAY))
+                //mirror
+                ,new Polygon(new Point(-40,20,0),new Point(-40,-20,0),new Point(-20,-20,-100),new Point(-20,20,-100))
+                        .setEmission(new Color(15, 15, 15)).setMaterial(new Material().setKr(1))
+
+                , new Sphere( 20,new Point(40, -20, -100)).setMaterial(ball).setEmission(new Color(BLUE))
+        );
+        Point sptPoint = new Point(-100, -40, 0);
+        //scene.lights.add(new SpotLight(new Color(YELLOW), sptPoint, new Point(-10, -45, -50).subtract(sptPoint)).setKl(1000).setKq(1.5E-6));
+        //scene.lights.add(new PointLight(new Color(240, 140, 0), new Point(40, 84, -100)).setKl(1E-5).setKq(1.5E-7));
+        scene.lights.add(new SpotLight(new Color(100, 20, 200), new Point(40, 75, -100),new Vector(0,-1,0))
+                .setKl(1E-5).setKq(1.5E-7));
+
+        camera.setImageWriter(new ImageWriter("softShadowTest2", 500, 500)) //
+                .renderImage() //
+                .writeToImage();
+    }
    }
 
