@@ -1,10 +1,7 @@
 package miniProjects;
 
 import geometries.*;
-import lighting.AmbientLight;
-import lighting.DirectionalLight;
-import lighting.PointLight;
-import lighting.SpotLight;
+import lighting.*;
 import org.junit.jupiter.api.Test;
 import primitives.*;
 import renderer.Camera;
@@ -12,6 +9,7 @@ import renderer.ImageWriter;
 import renderer.RayTracerBasic;
 import scene.Scene;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static java.awt.Color.*;
@@ -311,6 +309,127 @@ public class SoftShadowTest {
                 .setKl(1E-5).setKq(1.5E-7));
 
         camera.setImageWriter(new ImageWriter("softShadowTest2", 500, 500)) //
+                .renderImage() //
+                .writeToImage();
+    }
+    @Test
+    public void room() {
+        Scene scene = new Scene.SceneBuilder("TestScene").build();
+        Camera camera = new Camera(
+                        new Point(0, 500, 20),
+                        new Vector(0, -1, 0),
+                        new Vector(0, 0, 1))
+                        .setVPSize(200, 200)
+                        .setVPDistance(700).setRayTracer(new RayTracerBasic(scene));
+        Geometries geometries = new Geometries();
+        geometries.add(
+
+                /////////           FLOOR                 ///////////
+                new Polygon(
+                        new Point(70,-40,-14),
+                        new Point(-70,-40,-14),
+                        new Point(-70,100,-14),
+                        new Point(70,100,-14))
+                        .setEmission(new Color(0,0,74))
+                        .setMaterial(new Material().setKd(1).setShininess(50))
+                ,
+
+                /////////           FLOOR - MIRROR                 ///////////
+//                new Polygon(
+//                        new Point(60,-30, -13),
+//                        new Point(-60,-30,-13),
+//                        new Point(-60,90,-13),
+//                        new Point(60, 90,-13)).
+//                        setEmission(new Color(202, 202, 202))
+//                        .setMaterial(new Material().setKs(0.8).setShininess(180).setKr(0.1))
+//        ,
+
+                /////////           CEILING                 ///////////
+                new Polygon(
+                        new Point(70,-40,50),
+                        new Point(-70,-40,50),
+                        new Point(-70,100,50),
+                        new Point(70,100,50))
+                        .setEmission(new Color(3,0,0))
+                        .setMaterial(new Material().setKd(1).setKs(0).setShininess(50))
+                ,
+
+                /////////           WALLS                 ///////////
+                new Polygon(
+                        new Point(70,-40,-14),
+                        new Point(70,100,-14),
+                        new Point(70,100,50),
+                        new Point(70,-40,50))
+                        .setEmission(new Color(0,67,0))
+                        .setMaterial(new Material().setKd(1).setKs(0).setShininess(50))
+                ,
+                new Polygon(
+                        new Point(-70,-40,-14),
+                        new Point(-70,100,-14),
+                        new Point(-70,100,50),
+                        new Point(-70,-40,50))
+                        .setEmission(new Color(0,67,0))
+                        .setMaterial(new Material().setKd(1).setKs(0).setShininess(50))
+                ,
+                new Polygon(
+                        new Point(70,-40,-14),
+                        new Point(-70,-40,-14),
+                        new Point(-70,-40,50),
+                        new Point(70, -40, 50)).
+                        setEmission(new Color(3,67,74))
+                        .setMaterial(new Material()),
+
+                /////////           MIRROR                 ///////////
+                new Polygon(
+                        new Point(40,-39,-14),
+                        new Point(-40,-39,-14),
+                        new Point(-40,-39,30),
+                        new Point(40, -39, 30)).
+                        setEmission(new Color(20, 20, 20))
+                        .setMaterial(new Material().setKr(1).setKs(0)));
+
+       /* for(int i = 0; i < 60; i++) {
+            geometries.add(  pages.get(i)
+                    .setEmission(new Color(255, 255, 255))
+                    .setMaterial(new Material().setKd(1).setKs(0).setShininess(50)));
+        }*/
+
+
+
+
+        LinkedList<LightSource> lightSources = new LinkedList<>();
+
+        lightSources.add(
+                new PointLight(
+                        new Color(100,50, 0),
+                        new Point(40, 60, 20)));
+
+        lightSources.add(
+                new PointLight(
+                        new Color(100,50, 0),
+                        new Point(-40, 60, 20)));
+
+        lightSources.add(
+                new DirectionalLight(
+                        new Color(50,25, 0),
+                        new Vector(-40, -60, 20)));
+
+        lightSources.add(
+                new DirectionalLight(
+                        new Color(100,50, 33),
+                        new Vector(0.8, -1, 0.5)));
+
+        scene.geometries.add(geometries);
+        scene.setLights(lightSources)
+                .setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.1));
+
+      /*  ImageWriter imageWriter = new ImageWriter("ex_10_our_picture", 600, 600);
+        render.setImageWriter(imageWriter).setSuperS(true).setMultithreading(3).setDebugPrint().setAdaptiveSS(false)//
+                .setCamera(camera).setRayTracer(new BasicRayTracer(scene));
+
+        render.renderImage();
+        render.writeToImage();*/
+        camera.setImageWriter(new ImageWriter("room", 500, 500)) //
                 .renderImage() //
                 .writeToImage();
     }
