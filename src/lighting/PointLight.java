@@ -18,12 +18,13 @@ public class PointLight extends Light implements LightSource {
     /**
      * The size of the plane that I generate vectors from (for soft shadow).
      */
-    public double SIZE = 5;
-
+    public double SIZE = 4;
+    private final Random rand = new Random();
     private Point position;
     private double Kc = 1;
     private double Kl = 0;
     private double Kq = 0;
+    private List<Point> points = null;
 
     /**
      * Constructs a PointLight object with the given intensity and position.
@@ -96,15 +97,17 @@ public class PointLight extends Light implements LightSource {
         return point.distance(position);
     }
 
-    @Override
+  /*  @Override
     public List<Vector> getLightVectors(Point p) {
         List<Vector> vectors = new LinkedList();
         //grid of vectors around the light
+        for (double z = -SIZE; z < SIZE; z ++)
+        {
         for (double i = -SIZE; i < SIZE; i ++) {
             for (double j = -SIZE; j < SIZE; j ++) {
-                if (i != 0 && j != 0) {
+                if (i != 0 && j != 0 && z!=0) {
                     //create a point on the grid
-                    Point point = position.add(new Vector(i, 0.1d, j));
+                    Point point = position.add(new Vector(i, z, j));
                     if (point.equals(position)) {
                         //if the point is the same as the light position,
                         // add the vector from the point to the light
@@ -124,8 +127,49 @@ public class PointLight extends Light implements LightSource {
                     }
                 }
             }
-        }
+        }}
         vectors.add(getL(p));
         return vectors;
+    }*/
+    /**
+     * Get the array of points that will cast shadow rays
+     *
+     * @return The array of point
+     */
+    public List<Point> getPoints(Point p, int numOfPoints) {
+        if (SIZE == 0) return null;
+        if (this.points != null)
+            return this.points;
+        Point[] points = new Point[numOfPoints];
+        Vector to = p.subtract(position).normalize();
+        Vector vX = to.getOrthogonal().normalize();
+        Vector vY = vX.crossProduct(to).normalize();
+        double x, y, radius;
+        for (int i = 0; i < numOfPoints; i += 4) {
+            radius = rand.nextDouble(SIZE) + 0.1;
+            x = rand.nextDouble(radius) + 0.1;
+            y = radius * radius - x * x;//getCircleScale(x, radius);
+            for (int j = 0; j < 4; j++) {
+                //in this part we mirror the point we got 4 times, to each quarter of the grid
+                points[i + j]= position.add(vX.scale(j % 2 == 0 ? x : -x)).add(vY.scale((j <= 1 ? -y : y)));
+            }
+        }
+        List<Point> np = new LinkedList<>();
+        for (int i = 0; i<points.length; i++){
+            np.add(points[i]);
+        }
+        this.points = np;
+        return np;
+    }
+    @Override
+    public List<Vector> getLightVectors(Point p) {
+        List<Vector> lstVec = new LinkedList<>();
+        if(points == null){
+            getPoints(p, 1000);
+        }
+        for (var po: points) {
+            lstVec.add(p.subtract(po).normalize());
+        }
+        return lstVec;
     }
 }
