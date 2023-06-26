@@ -316,7 +316,7 @@ public class SoftShadowTest {
     public void room() {
         Scene scene = new Scene.SceneBuilder("TestScene").build();
         Camera camera = new Camera(
-                        new Point(0, 500, 20),
+                        new Point(0, 550, 20),
                         new Vector(0, -1, 0),
                         new Vector(0, 0, 1))
                         .setVPSize(200, 200)
@@ -326,13 +326,63 @@ public class SoftShadowTest {
 
                 /////////           FLOOR                 ///////////
                 new Polygon(
-                        new Point(70,-40,-14),
-                        new Point(-70,-40,-14),
-                        new Point(-70,100,-14),
-                        new Point(70,100,-14))
+                        new Point(70,-40,-20),
+                        new Point(-70,-40,-20),
+                        new Point(-70,100,-20),
+                        new Point(70,100,-20))
                         .setEmission(new Color(0,0,74))
                         .setMaterial(new Material().setKd(1).setShininess(50))
                 ,
+
+                /////////             PYRAMID              ///////////
+
+                new Triangle(
+                        new Point(-35,85,-20),
+                        new Point(35,85,-20),
+                        new Point(0,70,0)
+                )
+                        .setEmission(new Color(100, 50, 20))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+                new Triangle(
+                        new Point(-35,85,-20),
+                        new Point(0,55,-20),
+                        new Point(0,70,0)
+                )
+                        .setEmission(new Color(100, 50, 20))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+                new Triangle(
+                        new Point(35,85,-20),
+                        new Point(0,55,-20),
+                        new Point(0,70,0)
+                )
+                        .setEmission(new Color(100, 50, 20))
+                        .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+
+
+                /////////            RANDOM BALLS          ///////////
+                new Sphere(
+                        15,
+                        new Point(0,30,0))
+                        .setEmission(new Color(BLUE))
+                        .setMaterial(new Material()
+                                .setKd(0.25)
+                                .setKs(0.25)
+                                .setShininess(20)
+                                .setKt(new Double3(0.5, 0, 0))
+                        )
+                        //.setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3))
+                ,
+                new Sphere(
+                        7.5,
+                        new Point(0,30,0))
+                        .setEmission(new Color(RED))
+                        .setMaterial(new Material()
+                                .setKd(0.5)
+                                .setKs(0.5)
+                                .setShininess(100)
+                        )
+                ,
+
 
                 /////////           FLOOR - MIRROR                 ///////////
 //                new Polygon(
@@ -346,38 +396,51 @@ public class SoftShadowTest {
 
                 /////////           CEILING                 ///////////
                 new Polygon(
-                        new Point(70,-40,50),
-                        new Point(-70,-40,50),
-                        new Point(-70,100,50),
-                        new Point(70,100,50))
+                        new Point(70,-40,70),
+                        new Point(-70,-40,70),
+                        new Point(-70,100,70),
+                        new Point(70,100,70))
                         .setEmission(new Color(3,0,0))
                         .setMaterial(new Material().setKd(1).setKs(0).setShininess(50))
                 ,
 
                 /////////           WALLS                 ///////////
                 new Polygon(
-                        new Point(70,-40,-14),
-                        new Point(70,100,-14),
-                        new Point(70,100,50),
-                        new Point(70,-40,50))
+                        new Point(70,-40,-20),
+                        new Point(70,100,-20),
+                        new Point(70,100,70),
+                        new Point(70,-40,70))
                         .setEmission(new Color(0,67,0))
                         .setMaterial(new Material().setKd(1).setKs(0).setShininess(50))
                 ,
                 new Polygon(
-                        new Point(-70,-40,-14),
-                        new Point(-70,100,-14),
-                        new Point(-70,100,50),
-                        new Point(-70,-40,50))
+                        new Point(-70,-40,-20),
+                        new Point(-70,100,-20),
+                        new Point(-70,100,70),
+                        new Point(-70,-40,70))
                         .setEmission(new Color(0,67,0))
                         .setMaterial(new Material().setKd(1).setKs(0).setShininess(50))
                 ,
                 new Polygon(
-                        new Point(70,-40,-14),
-                        new Point(-70,-40,-14),
-                        new Point(-70,-40,50),
-                        new Point(70, -40, 50)).
+                        new Point(70,-40,-20),
+                        new Point(-70,-40,-20),
+                        new Point(-70,-40,70),
+                        new Point(70, -40, 70)).
                         setEmission(new Color(3,67,74))
                         .setMaterial(new Material()),
+                /////////          CYLINDER                ///////////
+
+                new Cylinder(
+                        3.25d,
+                        new Ray(
+                                new Point(70,40,30),
+                                new Vector(-1,0,0)
+                        ),
+                        140d
+                )
+                        .setEmission(new Color(0,67,0))
+                        .setMaterial(new Material().setKd(1).setKs(0).setShininess(50))
+                ,
 
                 /////////           MIRROR                 ///////////
                 new Polygon(
@@ -386,7 +449,8 @@ public class SoftShadowTest {
                         new Point(-40,-39,30),
                         new Point(40, -39, 30)).
                         setEmission(new Color(20, 20, 20))
-                        .setMaterial(new Material().setKr(1).setKs(0)));
+                        .setMaterial(new Material().setKr(1).setKs(0)))
+        ;
 
        /* for(int i = 0; i < 60; i++) {
             geometries.add(  pages.get(i)
@@ -409,7 +473,7 @@ public class SoftShadowTest {
                         new Color(100,50, 0),
                         new Point(-40, 60, 20)));
 
-        lightSources.add(
+        /*lightSources.add(
                 new DirectionalLight(
                         new Color(50,25, 0),
                         new Vector(-40, -60, 20)));
@@ -418,7 +482,7 @@ public class SoftShadowTest {
                 new DirectionalLight(
                         new Color(100,50, 33),
                         new Vector(0.8, -1, 0.5)));
-
+*/
         scene.geometries.add(geometries);
         scene.setLights(lightSources)
                 .setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.1));
@@ -429,7 +493,7 @@ public class SoftShadowTest {
 
         render.renderImage();
         render.writeToImage();*/
-        camera.setImageWriter(new ImageWriter("room", 500, 500)) //
+        camera.setImageWriter(new ImageWriter("room", 600, 600)) //
                 .renderImage() //
                 .writeToImage();
     }
